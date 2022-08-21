@@ -9,8 +9,58 @@ body {
 
 .calculatorApp {
   background: #2e3035;
-  width: 100%;
-  height: 100%;
+  width: 95%;
+  height: 95%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-style: solid;
+  border-color: #555758;
+  border-width: 2px;
+  border-radius: 8px;
+  margin: 2%;
+  padding: 0.3%;
+  padding-right: 0.1%;
+}
+
+#display {
+  color: #9a9c9c;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  font-size: 3rem;
+  grid-column-start: 1;
+  grid-column-end: 5;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  padding: 2%;
+}
+
+.button {
+  padding: 0%;
+  background: #d7dadc;
+  display: inline-block;
+  margin: 0.05em 0.05em;
+  border: 0.16em solid #d7dadc;
+  border-radius: 0.1em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 4rem;
+  color: #2f2f33;
+  text-shadow: 0 0.04em 0.04em rgba(255, 255, 255, 0.253);
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.button:active {
+  transform: translateY(1px);
+  background: #9a9c9c;
+  border-color: #9a9c9c;
+}
+
+#numButton0 {
+  grid-column-start: 1;
+  grid-column-end: 3;
 }
 
 .footer {
@@ -19,36 +69,36 @@ body {
   justify-content: center;
   align-items: center;
   position: relative;
-  height: 30px;
+  height: 3%;
 }
 
 .footer::after {
   background-color: #555758;
-  content: "";
+  content: '';
   display: block;
   height: 1px;
   left: 50%;
   position: absolute;
   transform: translate(-50%, 0);
   width: 95%;
-  margin-bottom: 28px;
+  margin-bottom: 6%;
 }
 
 #link {
   color: #9a9c9c;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 300;
-  font-size: 1rem;
+  font-size: 1.3rem;
   text-decoration: none;
 }
 
-@media screen
-and (min-device-width: 600px) {
+/*desktop version*/
+@media screen and (min-device-width: 600px) {
   .calculatorApp {
-    width: 350px;
-    height: 550px;
-    min-height: 550px;
-    min-width: 350px;
+    height: 500px;
+    width: 300px;
+    min-height: 500px;
+    min-width: 300px;
     align-self: center;
     margin-bottom: 8px;
     margin-top: auto;
@@ -57,8 +107,27 @@ and (min-device-width: 600px) {
     border-width: 1px;
     border-radius: 8px;
   }
+  #display {
+    font-size: 1.8rem;
+  }
 
+  .button {
+    font-size: 1.4rem;
+    margin: 0 0.1em 0.1em 0;
+  }
+  .footer {
+    height: 4.4%;
+  }
+
+  .footer::after {
+    margin-bottom: 28px;
+  }
   #link {
-    font-size: 0.85rem;
+    font-size: 0.844rem;
+  }
+}
+
+@media screen and (max-device-height: 670px) and (max-device-width: 380px) {
+  .button {
   }
 }
