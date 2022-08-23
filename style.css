@@ -13,7 +13,7 @@ body {
 .calculatorApp {
   background: #2e3035;
   width: 95%;
-  height: 97.3vh;
+  height: 98vh;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   border-style: solid;
