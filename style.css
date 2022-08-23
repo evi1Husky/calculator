@@ -6,24 +6,22 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 100vw;
+  width: 100%;
 }
 
 /*create calculator layout using grid in a container div*/
 .calculatorApp {
   background: #2e3035;
-  width: 95%;
-  height: 98vh;
+  width: 95vw;
+  height: 97vh;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   border-style: solid;
   border-color: #555758;
-  border-width: 2px;
+  border-width: 1.5px;
   border-radius: 8px;
   padding: 1%;
-  margin-left: 1%;
-  margin-top: 1%;
-  margin-bottom: 1%;
+  margin: 1%;
 }
 
 /*reverse data display direction with 'direction' and 'text align' properties*/
