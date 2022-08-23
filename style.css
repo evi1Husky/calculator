@@ -18,12 +18,12 @@ body {
   grid-template-columns: repeat(4, 1fr);
   border-style: solid;
   border-color: #555758;
-  border-width: 2px;
+  border-width: 1.5px;
   border-radius: 8px;
   padding: 1%;
   margin-left: 1%;
-  margin-top: 2%;
-  margin-bottom: 3%;
+  margin-top: 1%;
+  margin-bottom: 2.5%;
 }
 
 /*reverse data display direction with 'direction' and 'text align' properties*/
@@ -115,7 +115,14 @@ body {
   font-weight: 300;
   font-size: 0.7rem;
   text-decoration: none;
+  padding-top: auto;
 }
+
+
+
+
+
+
 
 /*fixed app size for desktop browsers*/
 /* @media screen and (min-device-width: 10cm) and (min-device-width: 10cm) {
