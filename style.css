@@ -5,15 +5,16 @@ body {
   padding: 0;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
+  overflow-y: hidden;
 }
 
 /*create calculator layout using grid in a container div*/
 .calculatorApp {
   background: #2e3035;
   width: 95%;
-  height: 95%;
+  height: 95vh;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   border-style: solid;
