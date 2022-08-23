@@ -14,7 +14,7 @@ body {
 .calculatorApp {
   background: #2e3035;
   width: 95%;
-  height: 95vh;
+  height: 94vh;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   border-style: solid;
@@ -23,8 +23,8 @@ body {
   border-radius: 8px;
   padding: 1%;
   margin-left: 1%;
-  margin-top: 2%;
-  margin-bottom: 2%;
+  margin-top: 1.5%;
+  margin-bottom: 0.5%;
 }
 
 /*reverse data display direction with 'direction' and 'text align' properties*/
@@ -95,7 +95,7 @@ body {
   justify-content: center;
   align-items: center;
   position: relative;
-  height: 3%;
+  height: 6%;
 }
 
 .footer::after {
@@ -107,15 +107,16 @@ body {
   position: absolute;
   transform: translate(-50%, 0);
   width: 95%;
-  margin-bottom: 6%;
+  margin-bottom: 3%;
 }
 
 #link {
   color: #9a9c9c;
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
-  font-size: 0.7rem;
+  font-size: 1.6rem;
   text-decoration: none;
+  padding-top: 3%;
 }
 
 /*fixed app size for desktop browsers*/
