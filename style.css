@@ -1,3 +1,4 @@
+/*use vh and vw units for dinamic grid resizing*/
 body {
   background: #2e3035;
   margin: 0;
@@ -7,6 +8,7 @@ body {
   width: 100vw;
 }
 
+/*create calculator layout using grid in a container div*/
 .calculatorApp {
   background: #2e3035;
   width: 95%;
@@ -20,18 +22,39 @@ body {
   margin: 2%;
   padding: 0.3%;
   padding-right: 0.1%;
+  margin-bottom: 1%;
+  margin-top: 1%;
 }
 
-#display {
+/*reverse data display direction with 'direction' and 'text align' properties*/
+.display {
   color: #9a9c9c;
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
-  font-size: 3rem;
+  padding: 2%;
   grid-column-start: 1;
   grid-column-end: 5;
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: middle;
+  text-align: right;
+  direction: rtl;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#displaySecondary {
+  font-size: 2.5rem;
   grid-row-start: 1;
+  grid-row-end: 2;
+  justify-content: flex-end;
+}
+
+#displayPrimary {
+  font-size: 5rem;
+  grid-row-start: 2;
   grid-row-end: 3;
-  padding: 2%;
+  justify-content: flex-start;
 }
 
 .button {
@@ -58,11 +81,12 @@ body {
   border-color: #9a9c9c;
 }
 
-#numButton0 {
-  grid-column-start: 1;
-  grid-column-end: 3;
+#equalButton {
+  grid-column-start: 3;
+  grid-column-end: 5;
 }
 
+/*responsive footer with horizontal line*/
 .footer {
   margin-top: auto;
   display: flex;
@@ -92,7 +116,7 @@ body {
   text-decoration: none;
 }
 
-/*desktop version*/
+/*fixed app size for desktop browsers*/
 @media screen and (min-device-width: 600px) {
   .calculatorApp {
     height: 500px;
@@ -100,21 +124,27 @@ body {
     min-height: 500px;
     min-width: 300px;
     align-self: center;
-    margin-bottom: 8px;
+    margin-bottom: 0.6%;
     margin-top: auto;
     border-style: solid;
     border-color: #555758;
-    border-width: 1px;
+    border-width: 1.5px;
     border-radius: 8px;
   }
-  #display {
-    font-size: 1.8rem;
+
+  #displaySecondary {
+    font-size: 1rem;
+  }
+
+  #displayPrimary {
+    font-size: 2rem;
   }
 
   .button {
     font-size: 1.4rem;
     margin: 0 0.1em 0.1em 0;
   }
+
   .footer {
     height: 4.4%;
   }
@@ -122,12 +152,37 @@ body {
   .footer::after {
     margin-bottom: 28px;
   }
+
   #link {
     font-size: 0.844rem;
   }
 }
 
-@media screen and (max-device-height: 670px) and (max-device-width: 380px) {
-  .button {
+/*adjust vertical layout for different phone displays*/
+@media screen and (max-device-height: 670px) and (max-device-width: 400px) {
+  .calculatorApp {
+    margin-bottom: 7%;
+    margin-top: 7%;
+  }
+}
+
+@media screen and (max-device-height: 730px) and (max-device-width: 450px) {
+  .calculatorApp {
+    margin-bottom: 12%;
+    margin-top: 12%;
+  }
+}
+
+@media screen and (max-device-height: 915px) and (max-device-width: 412px) {
+  .calculatorApp {
+    margin-bottom: 14%;
+    margin-top: 14%;
+  }
+}
+
+@media screen and (max-device-height: 736px) and (max-device-width: 414px) {
+  .calculatorApp {
+    margin-bottom: 2%;
+    margin-top: 2%;
   }
 }
