@@ -2,6 +2,7 @@
 body {
   background: #2e3035;
   margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -19,11 +20,10 @@ body {
   border-color: #555758;
   border-width: 2px;
   border-radius: 8px;
-  margin: 2%;
-  padding: 0.3%;
-  padding-right: 0.1%;
-  margin-bottom: 1%;
-  margin-top: 1%;
+  padding: 1%;
+  margin-left: 1%;
+  margin-top: 2%;
+  margin-bottom: 2%;
 }
 
 /*reverse data display direction with 'direction' and 'text align' properties*/
@@ -44,14 +44,15 @@ body {
 }
 
 #displaySecondary {
-  font-size: 2.5rem;
+  font-size: 1rem;
   grid-row-start: 1;
   grid-row-end: 2;
   justify-content: flex-end;
+  margin-top: 3%;
 }
 
 #displayPrimary {
-  font-size: 5rem;
+  font-size: 2.5rem;
   grid-row-start: 2;
   grid-row-end: 3;
   justify-content: flex-start;
@@ -67,8 +68,8 @@ body {
   box-sizing: border-box;
   text-decoration: none;
   font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  font-size: 4rem;
+  font-weight: 300;
+  font-size: 1.8rem;
   color: #2f2f33;
   text-shadow: 0 0.04em 0.04em rgba(255, 255, 255, 0.253);
   text-align: center;
@@ -81,9 +82,9 @@ body {
   border-color: #9a9c9c;
 }
 
-#equalButton {
-  grid-column-start: 3;
-  grid-column-end: 5;
+#numButton0 {
+  grid-column-start: 1;
+  grid-column-end: 3;
 }
 
 /*responsive footer with horizontal line*/
@@ -112,12 +113,12 @@ body {
   color: #9a9c9c;
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
-  font-size: 1.3rem;
+  font-size: 0.7rem;
   text-decoration: none;
 }
 
 /*fixed app size for desktop browsers*/
-@media screen and (min-device-width: 600px) {
+/* @media screen and (min-device-width: 10cm) and (min-device-width: 10cm) {
   .calculatorApp {
     height: 500px;
     width: 300px;
@@ -156,33 +157,4 @@ body {
   #link {
     font-size: 0.844rem;
   }
-}
-
-/*adjust vertical layout for different phone displays*/
-@media screen and (max-device-height: 670px) and (max-device-width: 400px) {
-  .calculatorApp {
-    margin-bottom: 7%;
-    margin-top: 7%;
-  }
-}
-
-@media screen and (max-device-height: 730px) and (max-device-width: 450px) {
-  .calculatorApp {
-    margin-bottom: 12%;
-    margin-top: 12%;
-  }
-}
-
-@media screen and (max-device-height: 915px) and (max-device-width: 412px) {
-  .calculatorApp {
-    margin-bottom: 14%;
-    margin-top: 14%;
-  }
-}
-
-@media screen and (max-device-height: 736px) and (max-device-width: 414px) {
-  .calculatorApp {
-    margin-bottom: 2%;
-    margin-top: 2%;
-  }
-}
+} */
