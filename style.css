@@ -56,10 +56,10 @@ body {
 
 .button {
   padding: 0%;
-  background: #c1c4c4;
+  background: #b6b6be;
   display: inline-block;
   margin: 0.05em 0.05em;
-  border: 0.16em solid #c1c4c4;
+  border: 0.16em solid #b6b6be;
   border-radius: 0.1em;
   box-sizing: border-box;
   text-decoration: none;
@@ -73,8 +73,8 @@ body {
 
 .button:active {
   transform: translateY(1px);
-  background: #aaacac;
-  border-color: #aaacac;
+  background: #a3a3ab;
+  border-color: #a3a3ab;
 }
 
 #numButton0 {
@@ -158,6 +158,10 @@ body {
   #displayPrimary {
     padding-bottom: 21%;
   }
+}
+
+.footer {
+  display: none;
 }
 
 /*fixed app size for desktop browsers*/
