@@ -1,4 +1,3 @@
-/*use vh and vw units for dinamic grid resizing*/
 body {
   background: #2e3035;
   margin: 0;
@@ -8,6 +7,7 @@ body {
 }
 
 /*create calculator layout using grid in a container div*/
+/*use vh and vw units for dinamic grid resizing*/
 .calculatorApp {
   width: 95vw;
   height: 97vh;
@@ -77,11 +77,13 @@ body {
   border-color: #a3a3ab;
 }
 
+/* use grid 'start' and 'end' to adjust grid element's dimensions */
 #numButton0 {
   grid-column-start: 1;
   grid-column-end: 3;
 }
 
+/* assign properties to multiple id's at the same time */
 #clearButton,
 #plusMinusButton,
 #percentButton,
@@ -115,7 +117,7 @@ body {
   border-color: #9d7575;
 }
 
-/* adjust layout for different phone displays */
+/* adjust layout for different displays sizes with @media queries */
 @media screen and (min-device-height: 740px) {
   .calculatorApp {
     height: 97.7vh;
@@ -164,7 +166,7 @@ body {
   display: none;
 }
 
-/*fixed app size for desktop browsers*/
+/*fixed app size with additional web page elements for desktop browsers*/
 @media screen and (min-device-width: 600px) {
   body {
     height: 100vh;
@@ -199,7 +201,7 @@ body {
     font-size: 1.4rem;
   }
 
-  /*responsive footer with shorter horizontal line*/
+  /*responsive footer with variable length horizontal line*/
   .footer {
     margin-top: auto;
     display: flex;
