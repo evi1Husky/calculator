@@ -7,7 +7,7 @@ body {
 }
 
 /*create calculator layout using grid in a container div*/
-/*use vh and vw units for dinamic grid resizing*/
+/*use vh and vw units for dynamic grid resizing*/
 .calculatorApp {
   width: 95vw;
   height: 97vh;
@@ -21,7 +21,7 @@ body {
   margin: 1%;
 }
 
-/*reverse data display direction with 'direction' and 'text align' properties*/
+/*reverse display direction with 'direction' and 'text align' properties*/
 .display {
   color: #a8aaaa;
   font-family: 'Roboto', sans-serif;
@@ -56,10 +56,10 @@ body {
 
 .button {
   padding: 0%;
-  background: #b6b6be;
+  background: #adadba;
   display: inline-block;
   margin: 0.05em 0.05em;
-  border: 0.16em solid #b6b6be;
+  border: 0.16em solid #adadba;
   border-radius: 0.1em;
   box-sizing: border-box;
   text-decoration: none;
@@ -73,8 +73,8 @@ body {
 
 .button:active {
   transform: translateY(1px);
-  background: #a3a3ab;
-  border-color: #a3a3ab;
+  background: #97979f;
+  border-color: #97979f;
 }
 
 /* use grid 'start' and 'end' to adjust grid element's dimensions */
@@ -88,15 +88,15 @@ body {
 #plusMinusButton,
 #percentButton,
 #divideButton {
-  background: #b29b8c;
-  border: 0.16em solid #b29b8c;
+  background: #a1938a;
+  border: 0.16em solid #a1938a;
 }
 
 #clearButton:active,
 #plusMinusButton:active,
 #percentButton:active {
-  background: #9a8679;
-  border-color: #9a8679;
+  background: #887c74;
+  border-color: #887c74;
 }
 
 #divideButton,
@@ -104,8 +104,8 @@ body {
 #subtractButton,
 #addButton,
 #equalButton {
-  background: #b38585;
-  border: 0.16em solid #b38585;
+  background: #a08383;
+  border: 0.16em solid #a08383;
 }
 
 #divideButton:active,
@@ -113,8 +113,8 @@ body {
 #subtractButton:active,
 #addButton:active,
 #equalButton:active {
-  background: #9d7575;
-  border-color: #9d7575;
+  background: #8b7070;
+  border-color: #8b7070;
 }
 
 /* adjust layout for different displays sizes with @media queries */
@@ -183,7 +183,6 @@ body {
     align-self: center;
     margin: auto;
     padding: 0.3%;
-
     margin-bottom: 7px;
   }
 
