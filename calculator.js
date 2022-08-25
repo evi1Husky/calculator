@@ -14,13 +14,13 @@ const calculator = {
     this.numberInput.push(num);
     this.calculatorOutput.push(num);
     console.log(this.numberInput);
+    console.log(this.numberArray);
   },
 
   add() {
     if (this.operated === false) {
       this.numberArray.push(Number(this.numberInput.join('')));
       this.numberInput.length = 0;
-      console.log(this.numberArray);
       this.calculate('+');
     }
   },
@@ -30,27 +30,24 @@ const calculator = {
       let num = this.numberArray[0] + this.numberArray[1];
       this.numberArray.length = 0;
       this.numberArray.push(num);
-      console.log(this.numberArray);
     }
     this.calculatorOutput.length = 0;
     this.calculatorOutput.push(this.numberArray[0]);
     this.operated = true;
+    console.log(this.numberInput);
+    console.log(this.numberArray);
   },
 
   equal() {
     // let operator = '+';
     // if (operator === '+') {
     this.numberArray.push(Number(this.numberInput.join('')));
-    console.log(this.numberArray);
-  //     let num = this.numberArray[0] + this.numberArray[1];
-  //     this.numberArray.length = 0;
-  //     this.numberArray.push(num);
-  //     console.log(this.numberArray);
-  //   }
-  //   this.calculatorOutput.length = 0;
-  //   this.calculatorOutput.push(this.numberArray[0]);
+    this.calculate('+');
+    this.numberInput.length = 0;
   }
 };
+
+
 
 // floatInput() {
 //   if (calculator.float == false) {
