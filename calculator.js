@@ -1,7 +1,7 @@
 // calculator object
 // Get a number from user with numInput method and store it as an array in
-// numberInput property, store results in numberArray starting with 0. Use 
-// calculate, equal and operator methods to operate on 2 stored numbers. Use 
+// numberInput property, store results in numberArray starting with null value. 
+// Use calculate, equal and operator methods to operate on 2 stored numbers. Use 
 // calculatorOutput to display calculation results, the html page recieves
 // data only from this array. Apply flags to block methods such as decimal 
 // point to prevent user from inserting multiple symbols at the same time
@@ -10,9 +10,9 @@
 
 const calculator = {
   numberInput: [],
-  numberArray: [0],
+  numberArray: [null],
   calculatorOutput: [],
-  decimalPoint: false,
+  decimalPointInserted: false,
   operated: false,
   operatorUsed: null,
 
@@ -36,15 +36,16 @@ const calculator = {
   },
 
   calculate(operator) {
+    let resultNumber = null;
     if (operator === '+') {
-      let num = this.numberArray[0] + this.numberArray[1];
+      resultNumber = this.numberArray[0] + this.numberArray[1];
       this.numberArray.length = 0;
-      this.numberArray.push(num);
+      this.numberArray.push(resultNumber);
     }
     this.calculatorOutput.length = 0;
-    this.calculatorOutput.push(this.numberArray[0]);
+    this.calculatorOutput.push(resultNumber);
     this.operated = true;
-    this.decimalPoint = false;
+    this.decimalPointInserted = false;
   },
 
   equal() {
@@ -57,16 +58,16 @@ const calculator = {
   },
 
   decimalInput() {
-    if (this.decimalPoint == false) {
+    if (this.decimalPointInserted === false && this.operated === false) {
       this.numberInput.push('.');
       this.calculatorOutput.push('.');
+      this.decimalPointInserted = true;
+      this.variables();
     }
-    this.decimalPoint = true;
-    this.variables();
   },
 
   clear() {
-    
+    alert('owo');
   },
 
   variables() {
@@ -74,7 +75,7 @@ const calculator = {
     console.log(`user input: ${this.numberInput.join('')}`);
     console.log(`numbers array: ${this.numberArray}`);
     console.log(`output: ${this.calculatorOutput.join('')}`);
-    console.log(`decimal inserted: ${this.decimalPoint}`);
+    console.log(`decimal inserted: ${this.decimalPointInserted}`);
     console.log(`operated: ${this.operated}`); 
     console.log(`operator used: ${this.operatorUsed}`);
   }
