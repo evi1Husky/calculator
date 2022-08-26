@@ -2,18 +2,19 @@
 // Get a number from user with numInput method and store it as an array in
 // numberInput property, store results in numberArray starting with 0. Use 
 // calculate, equal and operator methods to operate on 2 stored numbers. Use 
-// calculatorOutput to display calculation results, the html page only gets
-// data from this array. Apply flags to block methods such as decimal point
-// to prevent the user from inserting multiple at the same time as well as
-// to empty input and output arrays and allow for new number entries.
+// calculatorOutput to display calculation results, the html page recieves
+// data only from this array. Apply flags to block methods such as decimal 
+// point to prevent user from inserting multiple symbols at the same time
+// as well as empty the input and output arrays and allow for new number
+// entries.
 
 const calculator = {
+  numberInput: [],
+  numberArray: [0],
   calculatorOutput: [],
   decimalPoint: false,
   operated: false,
   operatorUsed: null,
-  numberInput: [],
-  numberArray: [0],
 
   numInput(num) {
     if (this.operated === true) {
@@ -22,8 +23,7 @@ const calculator = {
     }
     this.numberInput.push(num);
     this.calculatorOutput.push(num);
-    console.log(`number input: ${this.numberInput.join('')}`);
-    console.log(`number array: ${this.numberArray.join('')}`);
+    this.variables();
   },
 
   add() {
@@ -31,9 +31,8 @@ const calculator = {
       this.numberArray.push(Number(this.numberInput.join('')));
       this.numberInput.length = 0;
       this.calculate('+');
-      console.log(`number input: ${this.numberInput.join('')}`);
-      console.log(`number array: ${this.numberArray.join('')}`);
     }
+    this.variables();
   },
 
   calculate(operator) {
@@ -54,8 +53,7 @@ const calculator = {
     this.numberArray.push(Number(this.numberInput.join('')));
     this.calculate('+');
     this.numberInput.length = 0;
-    console.log(`number input: ${this.numberInput.join('')}`);
-    console.log(`number array: ${this.numberArray.join('')}`);
+    this.variables();
   },
 
   decimalInput() {
@@ -64,14 +62,22 @@ const calculator = {
       this.calculatorOutput.push('.');
     }
     this.decimalPoint = true;
-    console.log(`number input: ${this.numberInput.join('')}`);
-    console.log(`number array: ${this.numberArray.join('')}`);
+    this.variables();
   },
 
   clear() {
-    alert('owo');
-  }
+    
+  },
 
+  variables() {
+    console.clear();
+    console.log(`user input: ${this.numberInput.join('')}`);
+    console.log(`numbers array: ${this.numberArray}`);
+    console.log(`output: ${this.calculatorOutput.join('')}`);
+    console.log(`decimal inserted: ${this.decimalPoint}`);
+    console.log(`operated: ${this.operated}`); 
+    console.log(`operator used: ${this.operatorUsed}`);
+  }
 };
 
 // Assign event listeners to all calculator object elements within 
@@ -86,15 +92,15 @@ const calculator = {
   const primaryDisplay = document.getElementById('displayPrimary');
   let numButton = 'numButton0';
   let button = document.getElementById(numButton);
-  let num = 0;
-  for (let i = 0; i <= 9; ++i) {
+  let buttonIdNumber = 0;
+  for (let numButtonCount = 0; numButtonCount <= 9; ++numButtonCount) {
     button.addEventListener('click', ()=>{
-      calculator.numInput(i);
+      calculator.numInput(numButtonCount);
       primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
       primaryDisplay.style.direction = 'rtl';
     });
-    num += 1;
-    button = document.getElementById(numButton.slice(0, -1) + num);
+    buttonIdNumber += 1;
+    button = document.getElementById(numButton.slice(0, -1) + buttonIdNumber);
   }
   button = document.getElementById('numButtonPoint');
   button.addEventListener('click', ()=>{
