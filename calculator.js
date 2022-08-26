@@ -1,6 +1,15 @@
+// calculator object
+// Get a number from user with numInput method and store it as an array in
+// numberInput property, store results in numberArray starting with 0. Use 
+// calculate, equal and operator methods to operate on 2 stored numbers. Use 
+// calculatorOutput to display calculation results, the html page only gets
+// data from this array. Apply flags to block methods such as decimal point
+// to prevent the user from inserting multiple at the same time as well as
+// to empty input and output arrays and allow for new number entries.
+
 const calculator = {
   calculatorOutput: [],
-  float: false,
+  decimalPoint: false,
   operated: false,
   operatorUsed: null,
   numberInput: [],
@@ -13,8 +22,8 @@ const calculator = {
     }
     this.numberInput.push(num);
     this.calculatorOutput.push(num);
-    console.log(this.numberInput);
-    console.log(this.numberArray);
+    console.log(`number input: ${this.numberInput.join('')}`);
+    console.log(`number array: ${this.numberArray.join('')}`);
   },
 
   add() {
@@ -22,6 +31,8 @@ const calculator = {
       this.numberArray.push(Number(this.numberInput.join('')));
       this.numberInput.length = 0;
       this.calculate('+');
+      console.log(`number input: ${this.numberInput.join('')}`);
+      console.log(`number array: ${this.numberArray.join('')}`);
     }
   },
 
@@ -34,8 +45,7 @@ const calculator = {
     this.calculatorOutput.length = 0;
     this.calculatorOutput.push(this.numberArray[0]);
     this.operated = true;
-    console.log(this.numberInput);
-    console.log(this.numberArray);
+    this.decimalPoint = false;
   },
 
   equal() {
@@ -44,17 +54,33 @@ const calculator = {
     this.numberArray.push(Number(this.numberInput.join('')));
     this.calculate('+');
     this.numberInput.length = 0;
+    console.log(`number input: ${this.numberInput.join('')}`);
+    console.log(`number array: ${this.numberArray.join('')}`);
+  },
+
+  decimalInput() {
+    if (this.decimalPoint == false) {
+      this.numberInput.push('.');
+      this.calculatorOutput.push('.');
+    }
+    this.decimalPoint = true;
+    console.log(`number input: ${this.numberInput.join('')}`);
+    console.log(`number array: ${this.numberArray.join('')}`);
+  },
+
+  clear() {
+    alert('owo');
   }
+
 };
 
-
-
-// floatInput() {
-//   if (calculator.float == false) {
-//     this.calculatorOutput.push('.');
-//   }
-//   calculator.float = true;
-// },
+// Assign event listeners to all calculator object elements within 
+// a sepparate function. Change text display direction temporarily
+// when inserting the decimal point symbol to display it on the right
+// side. Use a for loop to automatically assign num pad event listeners
+// by changing the last index of the num button id string. Clicking a
+// button displays the content of the calculatorOutput array in 
+// addition to calling one of the calculator object methods.
 
 (() => {
   const primaryDisplay = document.getElementById('displayPrimary');
@@ -73,18 +99,16 @@ const calculator = {
   button = document.getElementById('numButtonPoint');
   button.addEventListener('click', ()=>{
     primaryDisplay.style.direction = 'ltr';
-    calculator.floatInput();
+    calculator.decimalInput();
     primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
   });
   button = document.getElementById('addButton');
   button.addEventListener('click', ()=>{
-    primaryDisplay.style.direction = 'ltr';
     calculator.add();
     primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
   });
   button = document.getElementById('equalButton');
   button.addEventListener('click', ()=>{
-    primaryDisplay.style.direction = 'ltr';
     calculator.equal();
     primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
   });

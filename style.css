@@ -56,10 +56,10 @@ body {
 
 .button {
   padding: 0%;
-  background: #adadba;
+  background: #a2a2a9;
   display: inline-block;
   margin: 0.05em 0.05em;
-  border: 0.16em solid #adadba;
+  border: 0.16em solid #a2a2a9;
   border-radius: 0.1em;
   box-sizing: border-box;
   text-decoration: none;
