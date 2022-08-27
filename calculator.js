@@ -25,6 +25,11 @@ const calculator = {
       this.calculatorOutput.length = 0;
       this.operated = false;
     }
+    if (this.decimalPointInserted === false && this.numberInput[0] == 0) {
+      this.numberInput.pop();
+      this.calculatorOutput.pop();
+    
+    } 
     this.numberInput.push(num);
     this.calculatorOutput.push(num);
     this.variables();
@@ -75,6 +80,10 @@ const calculator = {
 
   decimalInput() {
     if (this.decimalPointInserted === false && this.operated === false) {
+      if (this.numberInput.length === 0) {
+        this.numberInput.push('0');
+        this.calculatorOutput.push('0');
+      }
       this.numberInput.push('.');
       this.calculatorOutput.push('.');
       this.decimalPointInserted = true;
@@ -83,10 +92,9 @@ const calculator = {
   },
 
   clear() {
-    this.numberInput.length = 0;
-    this.numberArray.length = 0;
-    this.numberArray.push(null);
-    this.calculatorOutput.length = 0;
+    this.numberInput = [];
+    this.numberArray = [null];
+    this.calculatorOutput = [];
     this.decimalPointInserted = false;
     this.operated = false;
     this.operatorUsed = '+';
