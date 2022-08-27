@@ -34,8 +34,19 @@ const calculator = {
     if (this.operated === false) {
       this.numberArray.push(Number(this.numberInput.join('')));
       this.numberInput.length = 0;
-      this.calculate('+');
+      this.calculate(this.operatorUsed);
     }
+    this.operatorUsed = '+';
+    this.variables();
+  },
+
+  subtract() {
+    if (this.operated === false) {
+      this.numberArray.push(Number(this.numberInput.join('')));
+      this.numberInput.length = 0;
+      this.calculate(this.operatorUsed);
+    }
+    this.operatorUsed = '-';
     this.variables();
   },
 
@@ -43,6 +54,9 @@ const calculator = {
     let resultNumber = null;
     if (operator === '+') {
       resultNumber = this.numberArray[0] + this.numberArray[1];
+    }
+    if (operator === '-') {
+      resultNumber = this.numberArray[0] - this.numberArray[1];
     }
     this.numberArray.length = 0;
     this.numberArray.push(resultNumber);
@@ -139,6 +153,11 @@ const calculator = {
   button = document.getElementById('addButton');
   button.addEventListener('click', () => {
     calculator.add();
+    primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
+  });
+  button = document.getElementById('subtractButton');
+  button.addEventListener('click', () => {
+    calculator.subtract();
     primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
   });
   button = document.getElementById('equalButton');
