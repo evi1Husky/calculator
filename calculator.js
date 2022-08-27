@@ -1,12 +1,16 @@
 // calculator object
-// Get a number from user with numInput method and store it as an array in
-// numberInput property, store results in numberArray starting with null value. 
-// Use calculate, equal and operator methods to operate on 2 stored numbers. Use 
-// calculatorOutput to display calculation results, the html page recieves
-// data only from this array. Apply flags to block methods such as decimal 
-// point to prevent user from inserting multiple symbols at the same time
-// as well as empty the input and output arrays and allow for new number
-// entries.
+// Recieve a number value from user with numInput method and store it as an
+// array in numberInput property.
+// Use operator methods to convert user input array into a number 
+// and push it into numberArray that holds result value of the previous
+// calculation with the initial value set to null.
+// Use calculate() method inside operator methods with arithmetic operator
+// argument to calculate a new value.
+// Push calculation results into calculatorOutput array to display results,
+// the html page receives data only from this array.
+// Change boolean values to deactivate methods such as decimalInput() to
+// prevent user from inserting multiple symbols as well as to empty the input
+// and output arrays and allow for a new number input.
 
 const calculator = {
   numberInput: [],
@@ -14,7 +18,7 @@ const calculator = {
   calculatorOutput: [],
   decimalPointInserted: false,
   operated: false,
-  operatorUsed: null,
+  operatorUsed: '+',
 
   numInput(num) {
     if (this.operated === true) {
@@ -39,20 +43,18 @@ const calculator = {
     let resultNumber = null;
     if (operator === '+') {
       resultNumber = this.numberArray[0] + this.numberArray[1];
-      this.numberArray.length = 0;
-      this.numberArray.push(resultNumber);
     }
+    this.numberArray.length = 0;
+    this.numberArray.push(resultNumber);
     this.calculatorOutput.length = 0;
-    this.calculatorOutput.push(resultNumber);
+    this.calculatorOutput.push(this.roundIfBigFloat(resultNumber));
     this.operated = true;
     this.decimalPointInserted = false;
   },
 
   equal() {
-    // let operator = '+';
-    // if (operator === '+') {
     this.numberArray.push(Number(this.numberInput.join('')));
-    this.calculate('+');
+    this.calculate(this.operatorUsed);
     this.numberInput.length = 0;
     this.variables();
   },
@@ -67,7 +69,29 @@ const calculator = {
   },
 
   clear() {
-    alert('owo');
+    this.numberInput.length = 0;
+    this.numberArray.length = 0;
+    this.numberArray.push(null);
+    this.calculatorOutput.length = 0;
+    this.decimalPointInserted = false;
+    this.operated = false;
+    this.operatorUsed = '+';
+    this.variables();
+  },
+
+  roundIfBigFloat(number) {
+    if (number % 1 === 0) {
+      return number;
+    } else {
+      const numberString = '' + number;
+      const wholeLength = numberString.indexOf('.') + 1;
+      const decimalLength = numberString.length - wholeLength;
+      if (decimalLength === 16) {
+        return Number(number.toFixed(7));
+      } else {
+        return number;
+      }
+    }
   },
 
   variables() {
@@ -76,17 +100,17 @@ const calculator = {
     console.log(`numbers array: ${this.numberArray}`);
     console.log(`output: ${this.calculatorOutput.join('')}`);
     console.log(`decimal inserted: ${this.decimalPointInserted}`);
-    console.log(`operated: ${this.operated}`); 
+    console.log(`operated: ${this.operated}`);
     console.log(`operator used: ${this.operatorUsed}`);
-  }
+  },
 };
 
-// Assign event listeners to all calculator object elements within 
-// a sepparate function. Change text display direction temporarily
-// when inserting the decimal point symbol to display it on the right
+// Assign event listeners to all calculator object elements within
+// a separate function. Change text display direction temporarily
+// when inserting bidi symbols to display them on the right
 // side. Use a for loop to automatically assign num pad event listeners
 // by changing the last index of the num button id string. Clicking a
-// button displays the content of the calculatorOutput array in 
+// button displays the content of the calculatorOutput array in
 // addition to calling one of the calculator object methods.
 
 (() => {
@@ -95,7 +119,7 @@ const calculator = {
   let button = document.getElementById(numButton);
   let buttonIdNumber = 0;
   for (let numButtonCount = 0; numButtonCount <= 9; ++numButtonCount) {
-    button.addEventListener('click', ()=>{
+    button.addEventListener('click', () => {
       calculator.numInput(numButtonCount);
       primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
       primaryDisplay.style.direction = 'rtl';
@@ -104,19 +128,24 @@ const calculator = {
     button = document.getElementById(numButton.slice(0, -1) + buttonIdNumber);
   }
   button = document.getElementById('numButtonPoint');
-  button.addEventListener('click', ()=>{
+  button.addEventListener('click', () => {
     primaryDisplay.style.direction = 'ltr';
     calculator.decimalInput();
     primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
   });
   button = document.getElementById('addButton');
-  button.addEventListener('click', ()=>{
+  button.addEventListener('click', () => {
     calculator.add();
     primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
   });
   button = document.getElementById('equalButton');
-  button.addEventListener('click', ()=>{
+  button.addEventListener('click', () => {
     calculator.equal();
     primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
+  });
+  button = document.getElementById('clearButton');
+  button.addEventListener('click', () => {
+    calculator.clear();
+    primaryDisplay.innerHTML = 0;
   });
 })();
