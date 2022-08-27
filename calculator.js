@@ -47,7 +47,7 @@ const calculator = {
     this.numberArray.length = 0;
     this.numberArray.push(resultNumber);
     this.calculatorOutput.length = 0;
-    this.calculatorOutput.push(this.roundIfBigFloat(resultNumber));
+    this.calculatorOutput.push(this.roundIfTooBig(resultNumber));
     this.operated = true;
     this.decimalPointInserted = false;
   },
@@ -79,11 +79,14 @@ const calculator = {
     this.variables();
   },
 
-  roundIfBigFloat(number) {
+  roundIfTooBig(number) {
+    if (number.toString().includes('e')) {
+      return number.toPrecision(2);
+    }
     if (number % 1 === 0) {
       return number;
     } else {
-      const numberString = '' + number;
+      const numberString = number.toString();
       const wholeLength = numberString.indexOf('.') + 1;
       const decimalLength = numberString.length - wholeLength;
       if (decimalLength === 16) {
