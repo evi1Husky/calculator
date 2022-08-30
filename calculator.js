@@ -1,4 +1,5 @@
-/* calculator object
+/* 
+  Calculator Object
   Recieve input from user with numInput method and store it as an array in
 numberInput property. Use operator methods to convert user input array into a
 number and push it to numberArray that holds result value of the previous
@@ -11,18 +12,23 @@ as well as to empty the input and output arrays and allow for a new umber input.
 */
 
 const calculator = {
-  numberInput: [],         //stores user input 
-  numberArray: [null],     //holds two numeric values for calculation
-  calculatorOutput: [],    //displays calculation results 
-  decimalPointInserted: false, //to disable inserting multiple decimals
-  calculated: false,       //to turn off operator buttons after each calculation
-  operatorUsed: '+',       //passed as an argumant to calculate() method
+
+  numberInput: [],       //stores user input 
+  numberArray: [null],   //holds two numeric values for calculation
+  calculatorOutput: [],  //displays calculation results 
+  decimalPointInserted: false, //to prevent inserting multiple decimals
+  calculated: false,     //to turn off operator buttons after each calculation
+  operatorMethodUsed: false,  //disable equal button
+  operatorUsed: '+',     //passed as an argumant to calculate() method
+
+  /* clear ooutput array after every calculation.
+  Prevent entering multiple zeroes before other numbers or decimal point */
 
   numInput(num) {
-    if (this.calculated === true) {//clear ooutput array after every calculation
+    if (this.calculated === true) {
       this.calculatorOutput.length = 0;
       this.calculated = false;
-    }   //prevent entering multiple zeroes before other numbers or decimal point
+    } 
     if (this.decimalPointInserted === false && this.numberInput[0] === 0) {
       this.numberInput.shift();
       this.calculatorOutput.shift();
@@ -30,6 +36,7 @@ const calculator = {
     } 
     this.numberInput.push(num);
     this.calculatorOutput.push(num);
+    this.operatorMethodUsed = false;
     this.variables();
   },
 
@@ -40,6 +47,18 @@ const calculator = {
       this.calculate(this.operatorUsed);
     }
     this.operatorUsed = '+';
+    this.operatorMethodUsed = true;
+    this.variables();
+  },
+
+  multiply() {
+    if (this.calculated === false) {
+      this.numberArray.push(Number(this.numberInput.join('')));
+      this.numberInput.length = 0;
+      this.calculate(this.operatorUsed);
+    }
+    this.operatorUsed = '*';
+    this.operatorMethodUsed = true;
     this.variables();
   },
 
@@ -50,6 +69,18 @@ const calculator = {
       this.calculate(this.operatorUsed);
     }
     this.operatorUsed = '-';
+    this.operatorMethodUsed = true;
+    this.variables();
+  },
+
+  divide() {
+    if (this.calculated === false) {
+      this.numberArray.push(Number(this.numberInput.join('')));
+      this.numberInput.length = 0;
+      this.calculate(this.operatorUsed);
+    }
+    this.operatorUsed = '/';
+    this.operatorMethodUsed = true;
     this.variables();
   },
 
@@ -58,8 +89,14 @@ const calculator = {
     if (operator === '+') {
       resultNumber = this.numberArray[0] + this.numberArray[1];
     }
+    if (operator === '*') {
+      resultNumber = this.numberArray[0] * this.numberArray[1];
+    }
     if (operator === '-') {
       resultNumber = this.numberArray[0] - this.numberArray[1];
+    }
+    if (operator === '/') {
+      resultNumber = this.numberArray[0] / this.numberArray[1];
     }
     this.numberArray.length = 0;
     this.numberArray.push(resultNumber);
@@ -70,13 +107,18 @@ const calculator = {
   },
 
   equal() {
-    this.numberArray.push(Number(this.numberInput.join('')));
-    this.calculate(this.operatorUsed);
-    this.numberInput.length = 0;
-    this.variables();
+    if (this.operatorMethodUsed === false) {
+      this.numberArray.push(Number(this.numberInput.join('')));
+      this.calculate(this.operatorUsed);
+      this.numberInput.length = 0;
+      this.operatorMethodUsed = true;
+      this.variables();
+    }
   },
 
-  decimalInput() {     //push 0. if '.' button clicked when input array is empty
+  //push 0. if '.' button clicked when the input array is empty
+
+  decimalInput() {
     if (this.decimalPointInserted === false && this.calculated === false) {
       if (this.numberInput.length === 0) {
         this.numberInput.push('0');
@@ -95,13 +137,15 @@ const calculator = {
     this.calculatorOutput = [];
     this.decimalPointInserted = false;
     this.calculated = false;
+    this.operatorMethodUsed = false;
     this.operatorUsed = '+';
     this.variables();
   },
 
   /* round/truncate calc results that won't fit the calculator screen
-  only use this for big numbers meant to be displayed to the user
-  in calculatorOutput array */
+  only use this for big numbers meant to be displayed to user in
+  calculatorOutput array */
+
   roundIfTooBig(number) {
     if (number.toString().includes('e')) {
       return number.toPrecision(1);
@@ -121,6 +165,7 @@ const calculator = {
   },
 
   //track all variables with print statements
+
   variables() {
     console.clear();
     console.log(`user input: ${this.numberInput.join('')}`);
@@ -129,33 +174,39 @@ const calculator = {
     console.log(`decimal inserted: ${this.decimalPointInserted}`);
     console.log(`calculated: ${this.calculated}`);
     console.log(`operator used: ${this.operatorUsed}`);
+    console.log(`operator method used: ${this.operatorMethodUsed}`);
   },
+
 };
 
-/* 
-  Assign event listeners to all calculator object elements in a separate
-function. Change text display direction temporarily when inserting bidi symbols
-to display them on the right side. Use a for loop to automatically assign num
-pad event listeners by changing the last index of the num button id string.
-  Clicking a button displays the content of the calculatorOutput array in
- addition to calling one of the calculator object methods.
+/*
+  Assign event listeners to all calculator elements inside an immediately called
+function.
+  Clicking a button displays content of the calculatorOutput array in addition
+to calling one of the calculator object methods.
 */
 
 (() => {
-  const primaryDisplay = document.getElementById('displayPrimary');
-  let numButton = 'numButton0';
-  let button = document.getElementById(numButton);
-  let buttonIdNumber = 0;
-  for (let numButtonCount = 0; numButtonCount <= 9; ++numButtonCount) {
-    button.addEventListener('click', () => {
-      calculator.numInput(numButtonCount);
-      primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
-      primaryDisplay.style.direction = 'rtl';
-    });
-    buttonIdNumber += 1;
-    button = document.getElementById(numButton.slice(0, -1) + buttonIdNumber);
+
+  /* change the minus sign derection when displaying numbers on the
+  calculator screen with rtl text direction */
+
+  function changeMinusSignSide(numString) {
+    numString = numString.split('');
+    if (numString[0] === '-') {
+      numString.push(numString[0]);
+      numString.shift();
+      return numString.join('');
+    } else {
+      return numString.join('');
+    }
   }
-  button = document.getElementById('numButtonPoint');
+
+  /* Change text display direction temporarily when inserting the '.' bidi
+  symbol to display it on the left side using 'direction' property. */
+
+  const primaryDisplay = document.getElementById('displayPrimary');
+  let button = document.getElementById('numButtonPoint');
   button.addEventListener('click', () => {
     primaryDisplay.style.direction = 'ltr';
     calculator.decimalInput();
@@ -167,9 +218,21 @@ pad event listeners by changing the last index of the num button id string.
     primaryDisplay.innerHTML = 
       changeMinusSignSide(calculator.calculatorOutput.join(''));
   });
+  button = document.getElementById('multiplyButton');
+  button.addEventListener('click', () => {
+    calculator.multiply();
+    primaryDisplay.innerHTML = 
+      changeMinusSignSide(calculator.calculatorOutput.join(''));
+  });
   button = document.getElementById('subtractButton');
   button.addEventListener('click', () => {
     calculator.subtract();
+    primaryDisplay.innerHTML = 
+      changeMinusSignSide(calculator.calculatorOutput.join(''));
+  });
+  button = document.getElementById('divideButton');
+  button.addEventListener('click', () => {
+    calculator.divide();
     primaryDisplay.innerHTML = 
       changeMinusSignSide(calculator.calculatorOutput.join(''));
   });
@@ -184,17 +247,20 @@ pad event listeners by changing the last index of the num button id string.
     calculator.clear();
     primaryDisplay.innerHTML = 0;
   });
-})();
 
-/* change the side of the minus sign from left to right in a number string to
-display it properly with text direction css property set to 'right to left' */
-function changeMinusSignSide(numString) {
-  numString = numString.split('');
-  if (numString[0] === '-') {
-    numString.push(numString[0]);
-    numString.shift();
-    return numString.join('');
-  } else {
-    return numString.join('');
+  /* Use a for loop to repeatedly assign num pad event listeners by changing
+  the last index of the num button id string. */
+ 
+  let numButton = 'numButton0';
+  button = document.getElementById(numButton);
+  let buttonIdNumber = 0;
+  for (let numButtonCount = 0; numButtonCount <= 9; ++numButtonCount) {
+    button.addEventListener('click', () => {
+      calculator.numInput(numButtonCount);
+      primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
+    });
+    buttonIdNumber += 1;
+    button = document.getElementById(numButton.slice(0, -1) + buttonIdNumber);
   }
-}
+
+})();

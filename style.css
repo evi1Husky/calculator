@@ -77,7 +77,7 @@ body {
   border-color: #97979f;
 }
 
-/* use grid 'start' and 'end' to adjust grid element's dimensions */
+/* use grid 'start' and 'end' to adjust grid element dimensions */
 #numButton0 {
   grid-column-start: 1;
   grid-column-end: 3;
@@ -85,16 +85,16 @@ body {
 
 /* assign properties to multiple id's at the same time */
 #clearButton,
+#backSpaceButton,
 #plusMinusButton,
-#percentButton,
 #divideButton {
   background: #a1938a;
   border: 0.16em solid #a1938a;
 }
 
 #clearButton:active,
-#plusMinusButton:active,
-#percentButton:active {
+#backSpaceButton:active,
+#plusMinusButton:active {
   background: #887c74;
   border-color: #887c74;
 }
@@ -115,6 +115,14 @@ body {
 #equalButton:active {
   background: #8b7070;
   border-color: #8b7070;
+}
+
+#backSpaceButton {
+  font-size: 1.1rem;
+}
+
+#clearButton {
+  font-size: 1.5rem;
 }
 
 /* adjust layout for different displays sizes with @media queries */
