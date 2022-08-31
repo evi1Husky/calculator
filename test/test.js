@@ -16,28 +16,23 @@
 // console.log(changeMinusSignSide('1.0e-14'));
 
 
-function roundIfTooBig(number) {
-  const numArray = number.split('');
-  if (numArray.includes('e')) {
-    number = Number(number);
-    return number.toPrecision(2);
-  } else if (numArray.length > 16) {
-    number = Number(number);
-    number = number.toPrecision(16);
-    const newNumArray = String(number.split(''));
-    if (newNumArray.includes('e')) {
-      number = Number(number);
-      return number.toPrecision(2);
-    } else {
-      return number;
-    }
-  } else {
-    return number;
-  }
-}
+// function roundIfTooBig(number) {
+//   if (number.split('').length > 15) {
+//     number = Number(number);
+//     let newNumber = String(number);
+//     if (newNumber.split('').length > 15) {
+//       newNumber = Number(newNumber);
+//       return newNumber.toPrecision(10);
+//     }
+//     return number.toPrecision(15);
+//   } else {
+//     return number;
+//   }
+// }
 
-const t0 = performance.now();
-roundIfTooBig('1.331221e-14');
-const t1 = performance.now();
-console.log((t1 - t0).toFixed(3) + 'ms');
-console.log(roundIfTooBig('1.331221e-14'));
+// const t0 = performance.now();
+// roundIfTooBig('999988900011100000');
+// const t1 = performance.now();
+// console.log((t1 - t0).toFixed(4) + 'ms');
+// console.log(roundIfTooBig('999988900011100000'));
+

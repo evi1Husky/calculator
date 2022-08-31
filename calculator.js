@@ -17,6 +17,7 @@ const calculator = {
   numberArray: [null],   //holds two numeric values for calculation
   calculatorOutput: [0],  //displays calculation results 
   decimalPointInserted: false, //to prevent inserting multiple decimals
+  decimalAfterCalculation: false, //to allow inputing '.' after calculations
   calculated: false,     //to turn off operator buttons after each calculation
   operatorMethodUsed: false,  //disable equal button if false
   operatorUsed: '+',     //passed as an argumant to calculate() method
@@ -25,10 +26,10 @@ const calculator = {
   Prevent entering multiple zeroes before other numbers or decimal point */
 
   numInput(num) {
-    if (this.calculated === true) {
+    if (this.calculated === true && this.decimalPointInserted === false) {
       this.calculatorOutput.length = 0;
       this.calculated = false;
-    } 
+    }
     if (this.decimalPointInserted === false && this.numberInput[0] === 0) {
       this.numberInput.shift();
       this.calculatorOutput.shift();
@@ -38,6 +39,7 @@ const calculator = {
     this.calculatorOutput.push(num);
     this.operatorMethodUsed = false;
     this.plusMinusActive = true;
+    this.decimalAfterCalculation = false;
     this.variables();
   },
 
@@ -106,6 +108,11 @@ const calculator = {
     this.calculatorOutput.push(resultNumber);
     this.calculated = true;
     this.decimalPointInserted = false;
+    if (String(resultNumber).includes('.')) {
+      this.decimalAfterCalculation = true;
+    } else {
+      this.decimalAfterCalculation = false;
+    }
   },
 
   equal() {
@@ -123,6 +130,14 @@ const calculator = {
       this.numberInput.push('.');
       this.calculatorOutput.push('.');
       this.decimalPointInserted = true;
+      this.variables();
+    } else if (this.decimalAfterCalculation === false &&
+       this.calculated === true) {
+      this.numberInput.push('.');
+      this.calculatorOutput.push('.');
+      this.decimalPointInserted = true;
+      this.decimalAfterCalculation = true;
+      this.calculated = false;
       this.variables();
     }
   },
@@ -181,26 +196,6 @@ to calling one of the calculator object methods.
 
 (() => {
 
-  function roundIfTooBig(number) {
-    const numArray = number.split('');
-    if (numArray.includes('e')) {
-      number = Number(number);
-      return number.toPrecision(2);
-    } else if (numArray.length > 15) {
-      number = Number(number);
-      number = number.toPrecision(15);
-      const newNumArray = String(number.split(''));
-      if (newNumArray.includes('e')) {
-        number = Number(number);
-        return number.toPrecision(2);
-      } else {
-        return number;
-      }
-    } else {
-      return number;
-    }
-  }
-
   /* change the minus sign derection when displaying numbers on the
   calculator screen with rtl text direction */
 
@@ -212,6 +207,22 @@ to calling one of the calculator object methods.
       return numString.join('');
     } else {
       return numString.join('');
+    }
+  }
+
+  // truncate/round numbers that won't fit the calculator screen
+
+  function roundIfTooBig(number) {
+    if (number.split('').length > 15) {
+      number = Number(number);
+      let newNumber = String(number);
+      if (newNumber.split('').length > 15) {
+        newNumber = Number(newNumber);
+        return newNumber.toPrecision(10);
+      }
+      return number.toPrecision(15);
+    } else {
+      return number;
     }
   }
 
@@ -307,4 +318,7 @@ PRESENT IN THE OUTPUT STRING
 REFACTOR EVENT LISTENER ASSIGNING CODE
 
 BACKSPACE BUTTON
+
+KEYBOARD INPUT
+
 */
