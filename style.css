@@ -6,8 +6,9 @@ body {
   width: 100%;
 }
 
-/*create calculator layout using grid in a container div*/
-/*use vh and vw units for dynamic grid resizing*/
+/*create calculator layout using grid in a container div
+use vh and vw units for dynamic grid resizing*/
+
 .calculatorApp {
   width: 95vw;
   height: 97vh;
@@ -22,6 +23,7 @@ body {
 }
 
 /*reverse display direction with 'direction' and 'text align' properties*/
+
 .display {
   color: #a8aaaa;
   font-family: 'Roboto', sans-serif;
@@ -29,13 +31,12 @@ body {
   padding: 2%;
   grid-column-start: 1;
   grid-column-end: 5;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   vertical-align: middle;
   text-align: right;
   direction: rtl;
   overflow: hidden;
-  white-space: nowrap;
 }
 
 #displaySecondary {
@@ -78,12 +79,14 @@ body {
 }
 
 /* use grid 'start' and 'end' to adjust grid element dimensions */
+
 #numButton0 {
   grid-column-start: 1;
   grid-column-end: 3;
 }
 
 /* assign properties to multiple id's at the same time */
+
 #clearButton,
 #backSpaceButton,
 #plusMinusButton,
@@ -126,6 +129,7 @@ body {
 }
 
 /* adjust layout for different displays sizes with @media queries */
+
 @media screen and (min-device-height: 740px) {
   .calculatorApp {
     height: 97.7vh;
@@ -175,6 +179,7 @@ body {
 }
 
 /*fixed app size with additional web page elements for desktop browsers*/
+
 @media screen and (min-device-width: 600px) {
   body {
     height: 100vh;
@@ -209,6 +214,7 @@ body {
   }
 
   /*responsive footer with variable length horizontal line*/
+
   .footer {
     margin-top: auto;
     display: flex;

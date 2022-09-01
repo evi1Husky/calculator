@@ -13,38 +13,34 @@ as well as to empty the input and output arrays and allow for a new number input
 
 const calculator = {
 
-  numberInput: [0],       //stores user input 
-  numberArray: [null],   //holds two numeric values for calculation
+  numberInput: [0],  //stores user input 
+  numberArray: [null],  //holds two numeric values for calculation
   calculatorOutput: [0],  //displays calculation results 
-  decimalPointInserted: false, //to prevent inserting multiple decimals
-  decimalAfterCalculation: false, //to allow inputing '.' after calculations
-  calculated: false,     //to turn off operator buttons after each calculation
-  operatorMethodUsed: false,  //disable equal button if false
-  operatorUsed: '+',     //passed as an argumant to calculate() method
+  decimalPointInserted: false,  //to prevent inserting multiple decimals
+  calculated: false,  //to turn off operator buttons after each calculation
+  operatorMethodCalled: false,  //disable equal button if false
+  operatorUsed: '+',  //passed as an argumant to calculate() method
 
   /* clear ooutput array after every calculation.
   Prevent entering multiple zeroes before other numbers or decimal point */
 
   numInput(num) {
-    if (this.calculated === true && this.decimalPointInserted === false) {
+    if (this.calculated) {
       this.calculatorOutput.length = 0;
       this.calculated = false;
-    }
-    if (this.decimalPointInserted === false && this.numberInput[0] === 0) {
+    } 
+    if (!this.decimalPointInserted && this.numberInput[0] === 0) {
       this.numberInput.shift();
       this.calculatorOutput.shift();
-    
     } 
     this.numberInput.push(num);
     this.calculatorOutput.push(num);
     this.operatorMethodUsed = false;
-    this.plusMinusActive = true;
-    this.decimalAfterCalculation = false;
     this.variables();
   },
 
   add() {
-    if (this.calculated === false) {
+    if (!this.calculated) {
       this.numberArray.push(Number(this.numberInput.join('')));
       this.numberInput.length = 0;
       this.calculate(this.operatorUsed);
@@ -55,7 +51,7 @@ const calculator = {
   },
 
   multiply() {
-    if (this.calculated === false) {
+    if (!this.calculated) {
       this.numberArray.push(Number(this.numberInput.join('')));
       this.numberInput.length = 0;
       this.calculate(this.operatorUsed);
@@ -66,7 +62,7 @@ const calculator = {
   },
 
   subtract() {
-    if (this.calculated === false) {
+    if (!this.calculated) {
       this.numberArray.push(Number(this.numberInput.join('')));
       this.numberInput.length = 0;
       this.calculate(this.operatorUsed);
@@ -77,7 +73,7 @@ const calculator = {
   },
 
   divide() {
-    if (this.calculated === false) {
+    if (!this.calculated) {
       this.numberArray.push(Number(this.numberInput.join('')));
       this.numberInput.length = 0;
       this.calculate(this.operatorUsed);
@@ -108,38 +104,25 @@ const calculator = {
     this.calculatorOutput.push(resultNumber);
     this.calculated = true;
     this.decimalPointInserted = false;
-    if (String(resultNumber).includes('.')) {
-      this.decimalAfterCalculation = true;
-    } else {
-      this.decimalAfterCalculation = false;
-    }
   },
 
   equal() {
-    if (this.operatorMethodUsed === false) {
+    if (!this.operatorMethodCalled) {
       this.numberArray.push(Number(this.numberInput.join('')));
       this.calculate(this.operatorUsed);
       this.numberInput.length = 0;
       this.operatorMethodUsed = true;
-      this.variables();
     }
+    this.variables();
   },
 
   decimalInput() {
-    if (this.decimalPointInserted === false && this.calculated === false) {
+    if (!this.decimalPointInserted && !this.calculated) {
       this.numberInput.push('.');
       this.calculatorOutput.push('.');
       this.decimalPointInserted = true;
-      this.variables();
-    } else if (this.decimalAfterCalculation === false &&
-       this.calculated === true) {
-      this.numberInput.push('.');
-      this.calculatorOutput.push('.');
-      this.decimalPointInserted = true;
-      this.decimalAfterCalculation = true;
-      this.calculated = false;
-      this.variables();
     }
+    this.variables();
   },
 
   clear() {
@@ -154,21 +137,29 @@ const calculator = {
   },
 
   plusMinus() {
-    if (this.numberInput[0] !== '-' && this.calculated === false) {
+    if (this.numberInput[0] !== '-' && !this.calculated) {
       this.numberInput.unshift('-');
       this.calculatorOutput.unshift('-');
-    } else if (this.numberInput[0] === '-' && this.calculated === false){
+    } else if (this.numberInput[0] === '-' && !this.calculated){
       this.numberInput.shift();
       this.calculatorOutput.shift();
     }
-    if (this.numberArray[0] >= 0 && this.calculated === true) {
-      this.numberArray[0] = this.numberArray[0] - this.numberArray[0] * 2;
-      this.calculatorOutput.length = 0;
-      this.calculatorOutput.push(this.numberArray[0]);
-    } else if (this.numberArray[0] < 0 && this.calculated === true) {
-      this.numberArray[0] = this.numberArray[0] - this.numberArray[0] * 2;
-      this.calculatorOutput.length = 0;
-      this.calculatorOutput.push(this.numberArray[0]);
+    this.variables();
+  },
+
+  backSpace() {
+    if (this.numberInput.length !== 0) {
+      this.numberInput.pop();
+      const symbol = this.calculatorOutput.pop();
+      if (symbol === '.') {
+        this.decimalPointInserted = false;
+      }
+      console.log(symbol);
+      console.log(this.decimalPointInserted);
+      if (this.numberInput.length === 0) {
+        this.numberInput.push(0);
+        this.calculatorOutput.push(0);
+      }
     }
     this.variables();
   },
@@ -179,10 +170,11 @@ const calculator = {
     console.log(`user input: ${this.numberInput}`);
     console.log(`numbers array: ${this.numberArray}`);
     console.log(`output: ${this.calculatorOutput}`);
+    console.log(`operator used: ${this.operatorUsed}`);
     console.log(`decimal inserted: ${this.decimalPointInserted}`);
     console.log(`calculated: ${this.calculated}`);
-    console.log(`operator used: ${this.operatorUsed}`);
-    console.log(`operator method used: ${this.operatorMethodUsed}`);
+    console.log(`operator method called: ${this.operatorMethodCalled}`);
+    console.log('\n');
   },
 
 };
@@ -226,7 +218,7 @@ to calling one of the calculator object methods.
     }
   }
 
-  /* Change text display direction temporarily when inserting the '.' bidi
+  /*Change text display direction temporarily when inserting the '.' bidi
   symbol to display it on the left side using 'direction' property. */
 
   const primaryDisplay = document.getElementById('displayPrimary');
@@ -274,10 +266,21 @@ to calling one of the calculator object methods.
   });
   button = document.getElementById('plusMinusButton');
   button.addEventListener('click', () => {
+    primaryDisplay.innerHTML = 
+    changeMinusSignSide(calculator.calculatorOutput.join(''));
+    primaryDisplay.style.direction = 'ltr';
     calculator.plusMinus();
     primaryDisplay.innerHTML = 
-      changeMinusSignSide(roundIfTooBig(calculator.calculatorOutput.join('')));
-    primaryDisplay.style.direction = 'rtl';
+      roundIfTooBig(calculator.calculatorOutput.join(''));
+  });
+  button = document.getElementById('backSpaceButton');
+  button.addEventListener('click', () => {
+    primaryDisplay.innerHTML = 
+    changeMinusSignSide(calculator.calculatorOutput.join(''));
+    primaryDisplay.style.direction = 'ltr';
+    calculator.backSpace();
+    primaryDisplay.innerHTML = 
+      calculator.calculatorOutput.join('');
   });
 
   /* Use a for loop to repeatedly assign num pad event listeners by changing
@@ -288,37 +291,13 @@ to calling one of the calculator object methods.
   let buttonIdNumber = 0;
   for (let numButtonCount = 0; numButtonCount <= 9; ++numButtonCount) {
     button.addEventListener('click', () => {
+      primaryDisplay.style.direction = 'rtl';
       calculator.numInput(numButtonCount);
       primaryDisplay.innerHTML = 
         changeMinusSignSide(calculator.calculatorOutput.join(''));
-      primaryDisplay.style.direction = 'rtl';
     });
     buttonIdNumber += 1;
     button = document.getElementById(numButton.slice(0, -1) + buttonIdNumber);
   }
 
 })();
-
-
-/*
-
-SECOND DISPLAY 
-
-DIFFERENT FONTS
-
-BETTER BUTTON PRESS EFFECTS
-
-DISPLAY PADDING LEFT SIDE
-
-FIX BIDI SYMBOL DIRECTION WITHOIT USING JAVASCRIPT
-
-ABILITY TO INSERT DECIMAL POINT AFTER OPERATIONS IF IT'S NOT 
-PRESENT IN THE OUTPUT STRING
-
-REFACTOR EVENT LISTENER ASSIGNING CODE
-
-BACKSPACE BUTTON
-
-KEYBOARD INPUT
-
-*/
