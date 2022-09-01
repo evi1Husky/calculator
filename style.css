@@ -39,20 +39,22 @@ use vh and vw units for dynamic grid resizing*/
   overflow: hidden;
 }
 
+#displayPrimary {
+  box-sizing: border-box;
+  font-size: 1.8rem;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  height: 2.35rem;
+  justify-content: flex-start;
+  padding-bottom: 7%;
+}
+
 #displaySecondary {
   font-size: 1rem;
   grid-row-start: 1;
   grid-row-end: 2;
   justify-content: flex-end;
   padding-top: 7%;
-}
-
-#displayPrimary {
-  font-size: 2.5rem;
-  grid-row-start: 2;
-  grid-row-end: 3;
-  justify-content: flex-start;
-  padding-bottom: 7%;
 }
 
 .button {
@@ -66,7 +68,7 @@ use vh and vw units for dynamic grid resizing*/
   text-decoration: none;
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   color: #2f2f33;
   text-align: center;
   transition: all 0.2s;
@@ -205,12 +207,11 @@ use vh and vw units for dynamic grid resizing*/
   }
 
   #displayPrimary {
-    font-size: 2rem;
     padding-bottom: 0%;
   }
 
   .button {
-    font-size: 1.4rem;
+    font-size: 1.27rem;
   }
 
   /*responsive footer with variable length horizontal line*/

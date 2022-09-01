@@ -36,7 +36,6 @@ const calculator = {
     this.numberInput.push(num);
     this.calculatorOutput.push(num);
     this.operatorMethodUsed = false;
-    this.variables();
   },
 
   add() {
@@ -47,7 +46,6 @@ const calculator = {
     }
     this.operatorUsed = '+';
     this.operatorMethodUsed = true;
-    this.variables();
   },
 
   multiply() {
@@ -58,7 +56,6 @@ const calculator = {
     }
     this.operatorUsed = '*';
     this.operatorMethodUsed = true;
-    this.variables();
   },
 
   subtract() {
@@ -69,7 +66,6 @@ const calculator = {
     }
     this.operatorUsed = '-';
     this.operatorMethodUsed = true;
-    this.variables();
   },
 
   divide() {
@@ -80,11 +76,9 @@ const calculator = {
     }
     this.operatorUsed = '/';
     this.operatorMethodUsed = true;
-    this.variables();
   },
 
   calculate(operator) {
-    this.variables();
     let resultNumber = null;
     if (operator === '+') {
       resultNumber = this.numberArray[0] + this.numberArray[1];
@@ -113,7 +107,6 @@ const calculator = {
       this.numberInput.length = 0;
       this.operatorMethodUsed = true;
     }
-    this.variables();
   },
 
   decimalInput() {
@@ -122,7 +115,6 @@ const calculator = {
       this.calculatorOutput.push('.');
       this.decimalPointInserted = true;
     }
-    this.variables();
   },
 
   clear() {
@@ -133,7 +125,6 @@ const calculator = {
     this.calculated = false;
     this.operatorMethodUsed = false;
     this.operatorUsed = '+';
-    this.variables();
   },
 
   plusMinus() {
@@ -144,7 +135,6 @@ const calculator = {
       this.numberInput.shift();
       this.calculatorOutput.shift();
     }
-    this.variables();
   },
 
   backSpace() {
@@ -154,30 +144,41 @@ const calculator = {
       if (symbol === '.') {
         this.decimalPointInserted = false;
       }
-      console.log(symbol);
-      console.log(this.decimalPointInserted);
       if (this.numberInput.length === 0) {
         this.numberInput.push(0);
         this.calculatorOutput.push(0);
       }
     }
-    this.variables();
-  },
-
-  //track all variables with print statements
-
-  variables() {
-    console.log(`user input: ${this.numberInput}`);
-    console.log(`numbers array: ${this.numberArray}`);
-    console.log(`output: ${this.calculatorOutput}`);
-    console.log(`operator used: ${this.operatorUsed}`);
-    console.log(`decimal inserted: ${this.decimalPointInserted}`);
-    console.log(`calculated: ${this.calculated}`);
-    console.log(`operator method called: ${this.operatorMethodCalled}`);
-    console.log('\n');
   },
 
 };
+
+
+/*
+  Adjust font size proportionally to the string length to fit long numbers 
+  on the limited screen size
+*/
+
+const stringSizeLimiter = {
+
+  stringLength: 10,
+  fontSize: 1.8,
+  minimumFontSize: 0.6,
+  elementId: 'displayPrimary',
+
+  adjustFontSize(string) {
+    const cssFont = document.getElementById(this.elementId);
+    if (string.length > this.stringLength && this.fontSize > this.minimumFontSize) {
+      this.fontSize -= this.fontSize / this.stringLength;
+      this.stringLength += 1;
+    }
+    cssFont.style.fontSize = this.fontSize+'rem';
+  },
+
+};
+
+
+
 
 /*
   Assign event listeners to all calculator elements inside an immediately called
@@ -202,27 +203,11 @@ to calling one of the calculator object methods.
     }
   }
 
-  // truncate/round numbers that won't fit the calculator screen
-
-  function roundIfTooBig(number) {
-    if (number.split('').length > 15) {
-      number = Number(number);
-      let newNumber = String(number);
-      if (newNumber.split('').length > 15) {
-        newNumber = Number(newNumber);
-        return newNumber.toPrecision(10);
-      }
-      return number.toPrecision(15);
-    } else {
-      return number;
-    }
-  }
-
   /*Change text display direction temporarily when inserting the '.' bidi
   symbol to display it on the left side using 'direction' property. */
 
   const primaryDisplay = document.getElementById('displayPrimary');
-  primaryDisplay.innerHTML = 0;
+  primaryDisplay.innerHTML = '0';
   let button = document.getElementById('numButtonPoint');
   button.addEventListener('click', () => {
     primaryDisplay.style.direction = 'ltr';
@@ -231,33 +216,38 @@ to calling one of the calculator object methods.
   });
   button = document.getElementById('addButton');
   button.addEventListener('click', () => {
+    primaryDisplay.style.direction = 'ltr';
     calculator.add();
     primaryDisplay.innerHTML = 
-      changeMinusSignSide(roundIfTooBig(calculator.calculatorOutput.join('')));
+      calculator.calculatorOutput.join('');
   });
   button = document.getElementById('multiplyButton');
   button.addEventListener('click', () => {
+    primaryDisplay.style.direction = 'ltr';
     calculator.multiply();
     primaryDisplay.innerHTML = 
-      changeMinusSignSide(roundIfTooBig(calculator.calculatorOutput.join('')));
+      calculator.calculatorOutput.join('');
   });
   button = document.getElementById('subtractButton');
   button.addEventListener('click', () => {
+    primaryDisplay.style.direction = 'ltr';
     calculator.subtract();
     primaryDisplay.innerHTML = 
-      changeMinusSignSide(roundIfTooBig(calculator.calculatorOutput.join('')));
+      calculator.calculatorOutput.join('');
   });
   button = document.getElementById('divideButton');
   button.addEventListener('click', () => {
+    primaryDisplay.style.direction = 'ltr';
     calculator.divide();
     primaryDisplay.innerHTML = 
-      changeMinusSignSide(roundIfTooBig(calculator.calculatorOutput.join('')));
+      calculator.calculatorOutput.join('');
   });
   button = document.getElementById('equalButton');
   button.addEventListener('click', () => {
+    primaryDisplay.style.direction = 'ltr';
     calculator.equal();
     primaryDisplay.innerHTML = 
-      changeMinusSignSide(roundIfTooBig(calculator.calculatorOutput.join('')));
+      calculator.calculatorOutput.join('');
   });
   button = document.getElementById('clearButton');
   button.addEventListener('click', () => {
@@ -266,18 +256,17 @@ to calling one of the calculator object methods.
   });
   button = document.getElementById('plusMinusButton');
   button.addEventListener('click', () => {
+    primaryDisplay.style.direction = 'ltr';
     primaryDisplay.innerHTML = 
     changeMinusSignSide(calculator.calculatorOutput.join(''));
-    primaryDisplay.style.direction = 'ltr';
     calculator.plusMinus();
-    primaryDisplay.innerHTML = 
-      roundIfTooBig(calculator.calculatorOutput.join(''));
+    primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
   });
   button = document.getElementById('backSpaceButton');
   button.addEventListener('click', () => {
+    primaryDisplay.style.direction = 'ltr';
     primaryDisplay.innerHTML = 
     changeMinusSignSide(calculator.calculatorOutput.join(''));
-    primaryDisplay.style.direction = 'ltr';
     calculator.backSpace();
     primaryDisplay.innerHTML = 
       calculator.calculatorOutput.join('');
@@ -295,6 +284,7 @@ to calling one of the calculator object methods.
       calculator.numInput(numButtonCount);
       primaryDisplay.innerHTML = 
         changeMinusSignSide(calculator.calculatorOutput.join(''));
+      stringSizeLimiter.adjustFontSize(calculator.calculatorOutput);
     });
     buttonIdNumber += 1;
     button = document.getElementById(numButton.slice(0, -1) + buttonIdNumber);
