@@ -41,20 +41,12 @@ use vh and vw units for dynamic grid resizing*/
 
 #displayPrimary {
   box-sizing: border-box;
-  font-size: 1.8rem;
+  font-size: 2.8rem;
   grid-row-start: 2;
   grid-row-end: 3;
   height: 2.35rem;
   justify-content: flex-start;
-  padding-bottom: 7%;
-}
-
-#displaySecondary {
-  font-size: 1rem;
-  grid-row-start: 1;
-  grid-row-end: 2;
-  justify-content: flex-end;
-  padding-top: 7%;
+  padding-bottom: 15%;
 }
 
 .button {
@@ -123,7 +115,7 @@ use vh and vw units for dynamic grid resizing*/
 }
 
 #backSpaceButton {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 }
 
 #clearButton {
@@ -132,37 +124,67 @@ use vh and vw units for dynamic grid resizing*/
 
 /* adjust layout for different displays sizes with @media queries */
 
-@media screen and (min-device-height: 740px) {
+@media screen and (min-device-height: 740px) 
+  and (max-device-width: 500px){
   .calculatorApp {
-    height: 97.7vh;
+    height: 650px;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
   }
 
   #displaySecondary {
-    padding-top: 21%;
+    padding-top: 0%;
   }
 
   #displayPrimary {
-    padding-bottom: 21%;
+    padding-bottom: 16%;
   }
 }
 
-@media screen and (min-device-height: 800px) {
+@media screen and (min-device-height: 800px) 
+  and (max-device-width: 500px){
+  .calculatorApp {
+    height: 660px;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
   #displaySecondary {
-    padding-top: 31%;
+    padding-top: 0%;
   }
 
   #displayPrimary {
-    padding-bottom: 31%;
+    padding-bottom: 16%;
+ 
   }
 }
 
-@media screen and (min-device-height: 900px) {
-  #displaySecondary {
-    padding-top: 34%;
+@media screen and (min-device-height: 900px)
+  and (max-device-width: 500px) {
+  .calculatorApp {
+    height: 670px;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
   }
 
+  #displaySecondary {
+    padding-top: 0%;
+  } 
+
   #displayPrimary {
-    padding-bottom: 34%;
+    padding-bottom: 16%;
   }
 }
 
@@ -191,10 +213,10 @@ use vh and vw units for dynamic grid resizing*/
   }
 
   .calculatorApp {
-    height: 500px;
-    width: 300px;
-    min-height: 500px;
-    min-width: 300px;
+    height: 450px;
+    width: 275px;
+    min-height: 450px;
+    min-width: 275px;
     align-self: center;
     margin: auto;
     padding: 0.3%;
@@ -202,12 +224,12 @@ use vh and vw units for dynamic grid resizing*/
   }
 
   #displaySecondary {
-    font-size: 1rem;
     padding-top: 0%;
   }
 
   #displayPrimary {
     padding-bottom: 0%;
+    font-size: 2rem;
   }
 
   .button {

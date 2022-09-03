@@ -17,10 +17,9 @@ const calculator = {
   numberArray: [null], // holds two numeric values for calculation
   calculatorOutput: [0], // displays calculation results
   decimalPointInserted: false, // to prevent inserting multiple decimals
-  calculated: false, // to turn off operator buttons after each calculation
+  calculated: false, // turn off operator buttons after each calculation
   operatorMethodCalled: false, // disable equal button if false
   operatorUsed: '+', // passed as an argument to calculate() method
-
   /* clear output array after every calculation.
   Prevent entering multiple zeroes before other numbers or decimal point */
 
@@ -101,7 +100,7 @@ const calculator = {
   },
 
   equal() {
-    if (!this.operatorMethodCalled) {
+    if (!this.operatorMethodCalled && !this.calculated) {
       this.numberArray.push(Number(this.numberInput.join('')));
       this.calculate(this.operatorUsed);
       this.numberInput.length = 0;
@@ -121,6 +120,7 @@ const calculator = {
     this.numberInput = [0];
     this.numberArray = [null];
     this.calculatorOutput = [0];
+    this.memoryArray = [0];
     this.decimalPointInserted = false;
     this.calculated = false;
     this.operatorMethodUsed = false;
@@ -158,10 +158,12 @@ const calculator = {
 */
 
 const stringSizeLimiter = {
-  stringLength: 18, //string length after which the font size starts decreasing
-  fontSize: 1.8, //font size in rem units set in the stylesheet file
+  stringLength: 14, //string length after which the font size starts decreasing
+  fontSize: 2.8, //font size in rem units set in the stylesheet file
   minimumFontSize: 0, //decrease font size until this value is reached
   elementId: 'displayPrimary', //id of an element that holds font size property
+  length: 14,
+  size: 2.8,
 
   adjustFontSize(stringArray) {
     const cssFont = document.getElementById(this.elementId);
@@ -183,14 +185,14 @@ const stringSizeLimiter = {
       this.fontSize += this.fontSize / stringArray.length;
     }
     cssFont.style.fontSize = this.fontSize + 'rem';
-    if (stringArray.length <= 18) {
+    if (stringArray.length <= this.length) {
       this.stringSizeReset();
     }
   },
 
   stringSizeReset() {
-    this.stringLength = 18;
-    this.fontSize = 1.8;
+    this.stringLength = this.length;
+    this.fontSize = this.size;
     const cssFont = document.getElementById(this.elementId);
     cssFont.style.fontSize = this.fontSize + 'rem';
   },
@@ -200,21 +202,32 @@ const stringSizeLimiter = {
   toFixedStringSize(stringArray) {
     const cssFont = document.getElementById(this.elementId);
     if (String(stringArray[0]).length >= this.stringLength) {
-      if (String(stringArray[0]).length >= this.stringLength + 5) {
-        this.fontSize -= (this.fontSize / String(stringArray[0]).length) * 4.5;
-      } else if (String(stringArray[0]).length >= this.stringLength + 3) {
-        this.fontSize -= (this.fontSize / String(stringArray[0]).length) * 3.7;
-      } else if (String(stringArray[0]).length === this.stringLength + 2) {
-        this.fontSize -= (this.fontSize / String(stringArray[0]).length) * 3.3;
-      } else {
-        this.fontSize -= this.fontSize / String(stringArray[0]).length;
-      }
+      this.fontSize -= (this.fontSize / String(stringArray[0]).length) * 7;
       cssFont.style.fontSize = this.fontSize + 'rem';
-      this.stringLength = 18;
-      this.fontSize = 1.8;
+      this.stringLength = this.length;
+      this.fontSize = this.size;
     }
   },
 };
+
+if (window.screen.width > 450) {
+  stringSizeLimiter.fontSize = 2;
+  stringSizeLimiter.stringLength = 15;
+  stringSizeLimiter.length = 15;
+  stringSizeLimiter.size = 2;
+}
+if (window.screen.width < 450) {
+  stringSizeLimiter.stringLength = 15;
+  stringSizeLimiter.length = 15;
+}
+if (window.screen.width < 400) {
+  stringSizeLimiter.stringLength = 14;
+  stringSizeLimiter.length = 14;
+}
+if (window.screen.width < 370) {
+  stringSizeLimiter.stringLength = 13;
+  stringSizeLimiter.length = 13;
+}
 
 /*
   Assign event listeners to all calculator elements inside an immediately called
