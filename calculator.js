@@ -1,6 +1,6 @@
 /* 
   Calculator Object
-  Recieve input from user with numInput method and store it as an array in
+  Receive input from user with numInput method and store it as an array in
 numberInput property. Use operator methods to convert user input array into a
 number and push it to numberArray that holds result value of the previous
 calculation with the initial value set to null.
@@ -8,31 +8,31 @@ calculation with the initial value set to null.
 argument to calculate a new value. Push calculation results into
 calculatorOutput array to display results. Change boolean values to deactivate
 methods such as decimalInput() to prevent user from inserting multiple symbols
-as well as to empty the input and output arrays and allow for a new number input.
+as well as to empty the input and output arrays and allow for a new number
+input.
 */
 
 const calculator = {
+  numberInput: [0], // stores user input
+  numberArray: [null], // holds two numeric values for calculation
+  calculatorOutput: [0], // displays calculation results
+  decimalPointInserted: false, // to prevent inserting multiple decimals
+  calculated: false, // to turn off operator buttons after each calculation
+  operatorMethodCalled: false, // disable equal button if false
+  operatorUsed: '+', // passed as an argument to calculate() method
 
-  numberInput: [0],  //stores user input 
-  numberArray: [null],  //holds two numeric values for calculation
-  calculatorOutput: [0],  //displays calculation results 
-  decimalPointInserted: false,  //to prevent inserting multiple decimals
-  calculated: false,  //to turn off operator buttons after each calculation
-  operatorMethodCalled: false,  //disable equal button if false
-  operatorUsed: '+',  //passed as an argumant to calculate() method
-
-  /* clear ooutput array after every calculation.
+  /* clear output array after every calculation.
   Prevent entering multiple zeroes before other numbers or decimal point */
 
   numInput(num) {
     if (this.calculated) {
       this.calculatorOutput.length = 0;
       this.calculated = false;
-    } 
+    }
     if (!this.decimalPointInserted && this.numberInput[0] === 0) {
       this.numberInput.shift();
       this.calculatorOutput.shift();
-    } 
+    }
     this.numberInput.push(num);
     this.calculatorOutput.push(num);
     this.operatorMethodUsed = false;
@@ -131,7 +131,7 @@ const calculator = {
     if (this.numberInput[0] !== '-' && !this.calculated) {
       this.numberInput.unshift('-');
       this.calculatorOutput.unshift('-');
-    } else if (this.numberInput[0] === '-' && !this.calculated){
+    } else if (this.numberInput[0] === '-' && !this.calculated) {
       this.numberInput.shift();
       this.calculatorOutput.shift();
     }
@@ -150,46 +150,81 @@ const calculator = {
       }
     }
   },
-
 };
-
 
 /*
   Adjust font size proportionally to the string length to fit long numbers 
-  on the limited screen size
+  on a screen with limited width.
 */
 
 const stringSizeLimiter = {
+  stringLength: 18, //string length after which the font size starts decreasing
+  fontSize: 1.8, //font size in rem units set in the stylesheet file
+  minimumFontSize: 0, //decrease font size until this value is reached
+  elementId: 'displayPrimary', //id of an element that holds font size property
 
-  stringLength: 10,
-  fontSize: 1.8,
-  minimumFontSize: 0.6,
-  elementId: 'displayPrimary',
-
-  adjustFontSize(string) {
+  adjustFontSize(stringArray) {
     const cssFont = document.getElementById(this.elementId);
-    if (string.length > this.stringLength && this.fontSize > this.minimumFontSize) {
+    if (
+      stringArray.length > this.stringLength &&
+      this.fontSize > this.minimumFontSize
+    ) {
       this.fontSize -= this.fontSize / this.stringLength;
       this.stringLength += 1;
     }
-    cssFont.style.fontSize = this.fontSize+'rem';
+    cssFont.style.fontSize = this.fontSize + 'rem';
   },
 
+  // reverse for the backspace calculator method
+
+  fontSizeReverse(stringArray) {
+    const cssFont = document.getElementById(this.elementId);
+    if (stringArray.length > 0) {
+      this.fontSize += this.fontSize / stringArray.length;
+    }
+    cssFont.style.fontSize = this.fontSize + 'rem';
+    if (stringArray.length <= 18) {
+      this.stringSizeReset();
+    }
+  },
+
+  stringSizeReset() {
+    this.stringLength = 18;
+    this.fontSize = 1.8;
+    const cssFont = document.getElementById(this.elementId);
+    cssFont.style.fontSize = this.fontSize + 'rem';
+  },
+
+  // one time font size adjustment for the calculation result string
+
+  toFixedStringSize(stringArray) {
+    const cssFont = document.getElementById(this.elementId);
+    if (String(stringArray[0]).length >= this.stringLength) {
+      if (String(stringArray[0]).length >= this.stringLength + 5) {
+        this.fontSize -= (this.fontSize / String(stringArray[0]).length) * 4.5;
+      } else if (String(stringArray[0]).length >= this.stringLength + 3) {
+        this.fontSize -= (this.fontSize / String(stringArray[0]).length) * 3.7;
+      } else if (String(stringArray[0]).length === this.stringLength + 2) {
+        this.fontSize -= (this.fontSize / String(stringArray[0]).length) * 3.3;
+      } else {
+        this.fontSize -= this.fontSize / String(stringArray[0]).length;
+      }
+      cssFont.style.fontSize = this.fontSize + 'rem';
+      this.stringLength = 18;
+      this.fontSize = 1.8;
+    }
+  },
 };
-
-
-
 
 /*
   Assign event listeners to all calculator elements inside an immediately called
 function.
   Clicking a button displays content of the calculatorOutput array in addition
-to calling one of the calculator object methods.
+to calling one of the calculator and string resizing methods.
 */
 
 (() => {
-
-  /* change the minus sign derection when displaying numbers on the
+  /* change the minus sign direction when displaying numbers on the
   calculator screen with rtl text direction */
 
   function changeMinusSignSide(numString) {
@@ -210,71 +245,87 @@ to calling one of the calculator object methods.
   primaryDisplay.innerHTML = '0';
   let button = document.getElementById('numButtonPoint');
   button.addEventListener('click', () => {
-    primaryDisplay.style.direction = 'ltr';
-    calculator.decimalInput();
-    primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
+    if (!calculator.calculated) {
+      primaryDisplay.style.direction = 'ltr';
+      calculator.decimalInput();
+      primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
+      stringSizeLimiter.adjustFontSize(calculator.calculatorOutput);
+    }
   });
   button = document.getElementById('addButton');
   button.addEventListener('click', () => {
+    stringSizeLimiter.stringSizeReset();
     primaryDisplay.style.direction = 'ltr';
     calculator.add();
-    primaryDisplay.innerHTML = 
-      calculator.calculatorOutput.join('');
+    primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
+    stringSizeLimiter.toFixedStringSize(calculator.calculatorOutput);
   });
   button = document.getElementById('multiplyButton');
   button.addEventListener('click', () => {
+    stringSizeLimiter.stringSizeReset();
     primaryDisplay.style.direction = 'ltr';
     calculator.multiply();
-    primaryDisplay.innerHTML = 
-      calculator.calculatorOutput.join('');
+    primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
+    stringSizeLimiter.toFixedStringSize(calculator.calculatorOutput);
   });
   button = document.getElementById('subtractButton');
   button.addEventListener('click', () => {
+    stringSizeLimiter.stringSizeReset();
     primaryDisplay.style.direction = 'ltr';
     calculator.subtract();
-    primaryDisplay.innerHTML = 
-      calculator.calculatorOutput.join('');
+    primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
+    stringSizeLimiter.toFixedStringSize(calculator.calculatorOutput);
   });
   button = document.getElementById('divideButton');
   button.addEventListener('click', () => {
+    stringSizeLimiter.stringSizeReset();
     primaryDisplay.style.direction = 'ltr';
     calculator.divide();
-    primaryDisplay.innerHTML = 
-      calculator.calculatorOutput.join('');
+    primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
+    stringSizeLimiter.toFixedStringSize(calculator.calculatorOutput);
   });
   button = document.getElementById('equalButton');
   button.addEventListener('click', () => {
+    stringSizeLimiter.stringSizeReset();
     primaryDisplay.style.direction = 'ltr';
     calculator.equal();
-    primaryDisplay.innerHTML = 
-      calculator.calculatorOutput.join('');
+    primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
+    stringSizeLimiter.toFixedStringSize(calculator.calculatorOutput);
   });
   button = document.getElementById('clearButton');
   button.addEventListener('click', () => {
     calculator.clear();
-    primaryDisplay.innerHTML = 0;
+    stringSizeLimiter.stringSizeReset();
+    primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
   });
   button = document.getElementById('plusMinusButton');
   button.addEventListener('click', () => {
-    primaryDisplay.style.direction = 'ltr';
-    primaryDisplay.innerHTML = 
-    changeMinusSignSide(calculator.calculatorOutput.join(''));
-    calculator.plusMinus();
-    primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
+    if (!calculator.calculated) {
+      primaryDisplay.style.direction = 'ltr';
+      primaryDisplay.innerHTML = changeMinusSignSide(
+        calculator.calculatorOutput.join('')
+      );
+      calculator.plusMinus();
+      primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
+      stringSizeLimiter.adjustFontSize(calculator.calculatorOutput);
+    }
   });
   button = document.getElementById('backSpaceButton');
   button.addEventListener('click', () => {
-    primaryDisplay.style.direction = 'ltr';
-    primaryDisplay.innerHTML = 
-    changeMinusSignSide(calculator.calculatorOutput.join(''));
-    calculator.backSpace();
-    primaryDisplay.innerHTML = 
-      calculator.calculatorOutput.join('');
+    if (!calculator.calculated) {
+      primaryDisplay.style.direction = 'ltr';
+      primaryDisplay.innerHTML = changeMinusSignSide(
+        calculator.calculatorOutput.join('')
+      );
+      calculator.backSpace();
+      primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
+      stringSizeLimiter.fontSizeReverse(calculator.calculatorOutput);
+    }
   });
 
   /* Use a for loop to repeatedly assign num pad event listeners by changing
   the last index of the num button id string. */
- 
+
   let numButton = 'numButton0';
   button = document.getElementById(numButton);
   let buttonIdNumber = 0;
@@ -282,12 +333,12 @@ to calling one of the calculator object methods.
     button.addEventListener('click', () => {
       primaryDisplay.style.direction = 'rtl';
       calculator.numInput(numButtonCount);
-      primaryDisplay.innerHTML = 
-        changeMinusSignSide(calculator.calculatorOutput.join(''));
+      primaryDisplay.innerHTML = changeMinusSignSide(
+        calculator.calculatorOutput.join('')
+      );
       stringSizeLimiter.adjustFontSize(calculator.calculatorOutput);
     });
     buttonIdNumber += 1;
     button = document.getElementById(numButton.slice(0, -1) + buttonIdNumber);
   }
-
 })();
