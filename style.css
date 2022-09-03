@@ -51,10 +51,10 @@ use vh and vw units for dynamic grid resizing*/
 
 .button {
   padding: 0%;
-  background: #a2a2a9;
+  background: #9d9da3;
   display: inline-block;
   margin: 0.05em 0.05em;
-  border: 0.16em solid #a2a2a9;
+  border: 0.16em solid #9d9da3;
   border-radius: 0.1em;
   box-sizing: border-box;
   text-decoration: none;
@@ -68,8 +68,8 @@ use vh and vw units for dynamic grid resizing*/
 
 .button:active {
   transform: translateY(1px);
-  background: #97979f;
-  border-color: #97979f;
+  background: #8c8c94;
+  border-color: #8c8c94;
 }
 
 /* use grid 'start' and 'end' to adjust grid element dimensions */
@@ -101,8 +101,8 @@ use vh and vw units for dynamic grid resizing*/
 #subtractButton,
 #addButton,
 #equalButton {
-  background: #a08383;
-  border: 0.16em solid #a08383;
+  background: #9d8181;
+  border: 0.16em solid #9d8181;
 }
 
 #divideButton:active,
@@ -115,7 +115,8 @@ use vh and vw units for dynamic grid resizing*/
 }
 
 #backSpaceButton {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  -webkit-font-size: 2rem;
 }
 
 #clearButton {
@@ -213,9 +214,9 @@ use vh and vw units for dynamic grid resizing*/
   }
 
   .calculatorApp {
-    height: 450px;
+    height: 445px;
     width: 275px;
-    min-height: 450px;
+    min-height: 445px;
     min-width: 275px;
     align-self: center;
     margin: auto;

@@ -154,7 +154,7 @@ const calculator = {
 
 /*
   Adjust font size proportionally to the string length to fit long numbers 
-  on a screen with limited width.
+  screens with limited width.
 */
 
 const stringSizeLimiter = {
@@ -164,6 +164,7 @@ const stringSizeLimiter = {
   elementId: 'displayPrimary', //id of an element that holds font size property
   length: 14,
   size: 2.8,
+  adjust: 3,
 
   adjustFontSize(stringArray) {
     const cssFont = document.getElementById(this.elementId);
@@ -202,7 +203,10 @@ const stringSizeLimiter = {
   toFixedStringSize(stringArray) {
     const cssFont = document.getElementById(this.elementId);
     if (String(stringArray[0]).length >= this.stringLength) {
-      this.fontSize -= (this.fontSize / String(stringArray[0]).length) * 7;
+      this.fontSize -=
+        ((this.fontSize / String(stringArray[0]).length) *
+          String(stringArray[0]).length) /
+        this.adjust;
       cssFont.style.fontSize = this.fontSize + 'rem';
       this.stringLength = this.length;
       this.fontSize = this.size;
@@ -210,15 +214,19 @@ const stringSizeLimiter = {
   },
 };
 
+// adjust maximum string length for different displays
+
 if (window.screen.width > 450) {
   stringSizeLimiter.fontSize = 2;
   stringSizeLimiter.stringLength = 15;
   stringSizeLimiter.length = 15;
   stringSizeLimiter.size = 2;
+  stringSizeLimiter.adjust = 2.8;
 }
 if (window.screen.width < 450) {
   stringSizeLimiter.stringLength = 15;
   stringSizeLimiter.length = 15;
+  stringSizeLimiter.adjust = 2.8;
 }
 if (window.screen.width < 400) {
   stringSizeLimiter.stringLength = 14;
