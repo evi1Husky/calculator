@@ -113,6 +113,8 @@ const calculator = {
       this.numberInput.push('.');
       this.calculatorOutput.push('.');
       this.decimalPointInserted = true;
+      startBlinking();
+      stopBlinking(100);
     }
   },
 
@@ -147,6 +149,8 @@ const calculator = {
       if (this.numberInput.length === 0) {
         this.numberInput.push(0);
         this.calculatorOutput.push(0);
+        startBlinking();
+        stopBlinking(100);
       }
     }
   },
@@ -211,8 +215,9 @@ const stringSizeLimiter = {
     }
     if (string.includes('.')) {
       adjust += 0.1;
-    } if (string.length === 24) {
-      adjust -= 0.2;
+    }
+    if (string.length === 24) {
+      adjust -= 0.7;
     }
     const cssFont = document.getElementById(this.elementId);
     this.stringLength = this.length;
@@ -248,31 +253,45 @@ if (window.screen.width < 370) {
   stringSizeLimiter.adjust = 2.8;
 }
 
+/* change the minus sign direction when displaying numbers on the
+calculator screen with rtl text direction */
+
+function changeMinusSignSide(numString) {
+  numString = numString.split('');
+  if (numString[0] === '-') {
+    numString.push(numString[0]);
+    numString.shift();
+    return numString.join('');
+  } else {
+    return numString.join('');
+  }
+}
+
+/* make the calculator output blink by delaying disabling the animation 
+property of the display div with setTimeout() method */
+
+function stopBlinking(delay) {
+  const primaryDisplay = document.getElementById('displayPrimary');
+  setTimeout(function () {
+    primaryDisplay.style.animation = 'none';
+  }, delay);
+}
+
+function startBlinking() {
+  const primaryDisplay = document.getElementById('displayPrimary');
+  primaryDisplay.style.animation = 'blinkingText 0.1s infinite';
+}
+
 /*
-  Assign event listeners to all calculator elements inside an immediately called
+  Assign event listeners to all calculator elements with an immediately called
 function.
   Clicking a button displays content of the calculatorOutput array in addition
 to calling one of the calculator and string resizing methods.
+  Change text display direction temporarily when inserting the '.' bidi
+symbol to display it on the left side using 'direction' property.
 */
 
 (() => {
-  /* change the minus sign direction when displaying numbers on the
-  calculator screen with rtl text direction */
-
-  function changeMinusSignSide(numString) {
-    numString = numString.split('');
-    if (numString[0] === '-') {
-      numString.push(numString[0]);
-      numString.shift();
-      return numString.join('');
-    } else {
-      return numString.join('');
-    }
-  }
-
-  /*Change text display direction temporarily when inserting the '.' bidi
-  symbol to display it on the left side using 'direction' property. */
-
   const primaryDisplay = document.getElementById('displayPrimary');
   primaryDisplay.innerHTML = '0';
   let button = document.getElementById('numButtonPoint');
@@ -286,53 +305,66 @@ to calling one of the calculator and string resizing methods.
   });
   button = document.getElementById('addButton');
   button.addEventListener('click', () => {
+    primaryDisplay.style.animation = 'blinkingText 0.1s infinite';
     stringSizeLimiter.stringSizeReset();
     primaryDisplay.style.direction = 'ltr';
     calculator.add();
     primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
     stringSizeLimiter.toFixedStringSize(calculator.calculatorOutput);
+    stopBlinking(100);
   });
   button = document.getElementById('multiplyButton');
   button.addEventListener('click', () => {
+    primaryDisplay.style.animation = 'blinkingText 0.1s infinite';
     stringSizeLimiter.stringSizeReset();
     primaryDisplay.style.direction = 'ltr';
     calculator.multiply();
     primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
     stringSizeLimiter.toFixedStringSize(calculator.calculatorOutput);
+    stopBlinking(100);
   });
   button = document.getElementById('subtractButton');
   button.addEventListener('click', () => {
+    primaryDisplay.style.animation = 'blinkingText 0.1s infinite';
     stringSizeLimiter.stringSizeReset();
     primaryDisplay.style.direction = 'ltr';
     calculator.subtract();
     primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
     stringSizeLimiter.toFixedStringSize(calculator.calculatorOutput);
+    stopBlinking(100);
   });
   button = document.getElementById('divideButton');
   button.addEventListener('click', () => {
+    primaryDisplay.style.animation = 'blinkingText 0.1s infinite';
     stringSizeLimiter.stringSizeReset();
     primaryDisplay.style.direction = 'ltr';
     calculator.divide();
     primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
     stringSizeLimiter.toFixedStringSize(calculator.calculatorOutput);
+    stopBlinking(100);
   });
   button = document.getElementById('equalButton');
   button.addEventListener('click', () => {
+    primaryDisplay.style.animation = 'blinkingText 0.1s infinite';
     stringSizeLimiter.stringSizeReset();
     primaryDisplay.style.direction = 'ltr';
     calculator.equal();
     primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
     stringSizeLimiter.toFixedStringSize(calculator.calculatorOutput);
+    stopBlinking(100);
   });
   button = document.getElementById('clearButton');
   button.addEventListener('click', () => {
+    primaryDisplay.style.animation = 'blinkingText 0.1s infinite';
     calculator.clear();
     stringSizeLimiter.stringSizeReset();
     primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
+    stopBlinking(100);
   });
   button = document.getElementById('plusMinusButton');
   button.addEventListener('click', () => {
     if (!calculator.calculated) {
+      primaryDisplay.style.animation = 'blinkingText 0.1s infinite';
       primaryDisplay.style.direction = 'ltr';
       primaryDisplay.innerHTML = changeMinusSignSide(
         calculator.calculatorOutput.join('')
@@ -340,6 +372,7 @@ to calling one of the calculator and string resizing methods.
       calculator.plusMinus();
       primaryDisplay.innerHTML = calculator.calculatorOutput.join('');
       stringSizeLimiter.adjustFontSize(calculator.calculatorOutput);
+      stopBlinking(100);
     }
   });
   button = document.getElementById('backSpaceButton');
