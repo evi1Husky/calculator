@@ -164,7 +164,7 @@ const stringSizeLimiter = {
   elementId: 'displayPrimary', //id of an element that holds font size property
   length: 14,
   size: 2.8,
-  adjust: 3,
+  adjust: 3.3,
 
   adjustFontSize(stringArray) {
     const cssFont = document.getElementById(this.elementId);
@@ -201,16 +201,27 @@ const stringSizeLimiter = {
   // one time font size adjustment for the calculation result string
 
   toFixedStringSize(stringArray) {
-    const cssFont = document.getElementById(this.elementId);
-    if (String(stringArray[0]).length >= this.stringLength) {
-      this.fontSize -=
-        ((this.fontSize / String(stringArray[0]).length) *
-          String(stringArray[0]).length) /
-        this.adjust;
-      cssFont.style.fontSize = this.fontSize + 'rem';
-      this.stringLength = this.length;
-      this.fontSize = this.size;
+    let adjust = this.adjust;
+    const string = String(stringArray[0]);
+    if (string.includes('e')) {
+      adjust -= 0.3;
     }
+    if (string.includes('-')) {
+      adjust -= 0.2;
+    }
+    if (string.includes('.')) {
+      adjust += 0.1;
+    } if (string.length === 24) {
+      adjust -= 0.2;
+    }
+    const cssFont = document.getElementById(this.elementId);
+    this.stringLength = this.length;
+    if (string.length >= this.stringLength) {
+      this.fontSize -=
+        ((this.fontSize / string.length) * string.length) / adjust;
+      cssFont.style.fontSize = this.fontSize + 'rem';
+    }
+    this.fontSize = this.size;
   },
 };
 
@@ -218,23 +229,23 @@ const stringSizeLimiter = {
 
 if (window.screen.width > 450) {
   stringSizeLimiter.fontSize = 2;
+  stringSizeLimiter.size = 2;
   stringSizeLimiter.stringLength = 15;
   stringSizeLimiter.length = 15;
-  stringSizeLimiter.size = 2;
-  stringSizeLimiter.adjust = 2.8;
 }
 if (window.screen.width < 450) {
   stringSizeLimiter.stringLength = 15;
   stringSizeLimiter.length = 15;
-  stringSizeLimiter.adjust = 2.8;
 }
 if (window.screen.width < 400) {
   stringSizeLimiter.stringLength = 14;
   stringSizeLimiter.length = 14;
+  stringSizeLimiter.adjust = 3;
 }
 if (window.screen.width < 370) {
   stringSizeLimiter.stringLength = 13;
   stringSizeLimiter.length = 13;
+  stringSizeLimiter.adjust = 2.8;
 }
 
 /*

@@ -115,8 +115,7 @@ use vh and vw units for dynamic grid resizing*/
 }
 
 #backSpaceButton {
-  font-size: 1.1rem;
-  -webkit-font-size: 2rem;
+  font-size: 18px;
 }
 
 #clearButton {
