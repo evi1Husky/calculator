@@ -157,7 +157,7 @@ const calculator = {
 };
 
 /*
-  Adjust font size proportionally to the string length to fit long numbers 
+  Adjust font size proportionally to the string length to fit long numbers to the
   screens with limited width.
 */
 
@@ -213,8 +213,8 @@ const stringSizeLimiter = {
     if (string.includes('-')) {
       adjust -= 0.2;
     }
-    if (string.includes('.')) {
-      adjust += 0.1;
+    if (string.length >= 22 && string.length < 24) {
+      adjust -= 0.5;
     }
     if (string.length === 24) {
       adjust -= 0.7;
